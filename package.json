@@ -1,0 +1,48 @@
+{
+  "name": "SCC",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --ignore-pattern build/**/* --fix src/",
+    "start": "webpack-dev-server --progress",
+    "build": "webpack --mode=production"
+  },
+  "author": "Torque",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "classnames": "^2.2.6",
+    "path": "^0.12.7",
+    "prop-types": "^15.6.2",
+    "react": "^16.8.1",
+    "react-dom": "16.8.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "autoprefixer": "^9.0.2",
+    "babel-loader": "^8.0.0",
+    "babel-eslint": "^10.0.1",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^4.0.0-alpha.0",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.9.2",
+    "postcss-loader": "^2.1.6",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.3.0"
+  },
+  "engines": {
+    "node": "10.x"
+  }
+}
