@@ -1,10 +1,11 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import theme, { H1 } from 'theme';
+import { Router } from 'core';
+import theme from 'theme';
 
 const App = () => (
   <ThemeProvider theme={theme}>
-    <H1>Hello World!</H1>
+    <Router />
   </ThemeProvider>
 );
 

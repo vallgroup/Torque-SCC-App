@@ -12,7 +12,8 @@
           "store": "./src/store",
           "components": "./src/components",
           "statics": "./src/statics",
-          "theme": "./src/theme"
+          "theme": "./src/theme",
+          "core": "./src/core"
         }
       }
     ]
