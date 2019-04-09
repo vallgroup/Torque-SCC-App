@@ -10,7 +10,9 @@
         "root": ["./"],
         "alias": {
           "store": "./src/store",
-          "components": "./src/components"
+          "components": "./src/components",
+          "statics": "./src/statics",
+          "theme": "./src/theme"
         }
       }
     ]
