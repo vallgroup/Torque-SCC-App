@@ -21,4 +21,9 @@ module.exports = {
     //
     'react-hooks/exhaustive-deps': 'error',
   },
+  settings: {
+    'import/resolver': {
+      'babel-module': {},
+    },
+  },
 };

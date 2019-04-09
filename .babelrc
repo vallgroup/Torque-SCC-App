@@ -2,6 +2,16 @@
   "presets": ["@babel/preset-react", "@babel/preset-env"],
   "plugins": [
     "@babel/plugin-transform-runtime",
-    "@babel/plugin-proposal-optional-chaining"
+    "@babel/plugin-proposal-optional-chaining",
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "store": "./src/store",
+          "components": "./src/components"
+        }
+      }
+    ]
   ]
 }
