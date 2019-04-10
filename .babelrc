@@ -13,7 +13,9 @@
           "components": "./src/components",
           "statics": "./src/statics",
           "theme": "./src/theme",
-          "core": "./src/core"
+          "core": "./src/core",
+          "helpers": "./src/helpers",
+          "hooks": "./src/hooks"
         }
       }
     ]
