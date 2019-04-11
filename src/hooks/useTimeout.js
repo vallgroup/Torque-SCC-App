@@ -3,7 +3,7 @@ import { useEffect, useRef, useCallback } from 'react';
 // adapted from
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 
-export default (callback, delay, running) => {
+export default (callback, delay, running = true) => {
   // save id in a ref so we make sure we're always clearing the latest timeout
   const timeoutId = useRef('');
 
