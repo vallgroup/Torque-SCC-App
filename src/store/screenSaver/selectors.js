@@ -1,1 +1,1 @@
-export const getScreenSaverImages = state => state.screenSaver;
+export const getScreenSaverImages = state => state.screenSaver || [];

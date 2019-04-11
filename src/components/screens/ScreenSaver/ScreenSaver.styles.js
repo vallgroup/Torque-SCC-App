@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 export const transitionGroupClassName = 'screen-saver';
 export const transitionGroupTimeout = 1000;
 
-export const ScreenSaverWrapper = styled(CSSTransition)`
+export const ScreenSaverRoot = styled(CSSTransition)`
   position: fixed;
   z-index: 1000;
   top: 0;
@@ -12,7 +12,7 @@ export const ScreenSaverWrapper = styled(CSSTransition)`
   width: 100%;
   height: 100%;
 
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.black};
 
   transition: opacity ${transitionGroupTimeout}ms;
 
@@ -40,5 +40,3 @@ export const ScreenSaverWrapper = styled(CSSTransition)`
     opacity: 0;
   }
 `;
-
-export const ScreenSaverInner = styled.div``;

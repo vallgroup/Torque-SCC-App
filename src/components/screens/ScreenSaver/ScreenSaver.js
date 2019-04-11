@@ -1,10 +1,14 @@
 import React, { memo, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import compose from 'helpers/compose';
-import { useTimeout } from 'hooks';
+import { screenSaverSelectors } from 'store/screenSaver';
+import { getScreenSaver as getScreenSaverAction } from 'store/actions';
+import { useTimeout, useEnsureFetch } from 'hooks';
+import Slideshow from 'components/Slideshow';
 import {
-  ScreenSaverWrapper,
-  ScreenSaverInner,
+  ScreenSaverRoot,
   transitionGroupClassName,
   transitionGroupTimeout,
 } from './ScreenSaver.styles';
@@ -13,8 +17,18 @@ const MINUTES_TO_MOUNT = 20;
 
 const NON_IDLE_EVENTS = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
 
-const ScreenSaver = ({ history }) => {
+const mapState = state => ({
+  images: screenSaverSelectors.getScreenSaverImages(state),
+});
+
+const mapActions = {
+  getScreenSaver: getScreenSaverAction,
+};
+
+const ScreenSaver = ({ images, history, getScreenSaver }) => {
   const [mounted, setMounted] = useState(false);
+
+  useEnsureFetch(getScreenSaver, !images.length);
 
   // create a timeout for showing the screen saver, with a function to reset it to 0
   const { reset } = useTimeout(
@@ -48,7 +62,7 @@ const ScreenSaver = ({ history }) => {
   const handleScreenSaverExit = () => history.push('/');
 
   return (
-    <ScreenSaverWrapper
+    <ScreenSaverRoot
       in={mounted}
       timeout={transitionGroupTimeout}
       classNames={transitionGroupClassName}
@@ -56,12 +70,24 @@ const ScreenSaver = ({ history }) => {
       onExiting={handleScreenSaverExit}
       onClick={handleScreenSaverClick}
     >
-      <ScreenSaverInner />
-    </ScreenSaverWrapper>
+      <div>
+        <Slideshow images={images} interval={10000} transition="slide" />
+      </div>
+    </ScreenSaverRoot>
   );
+};
+
+ScreenSaver.propTypes = {
+  history: PropTypes.object.isRequired, // from withRouter HOC
+  images: PropTypes.array, // from connect
+  getScreenSaver: PropTypes.func.isRequired, // from connect
 };
 
 export default compose(
   withRouter,
+  connect(
+    mapState,
+    mapActions,
+  ),
   memo,
 )(ScreenSaver);
