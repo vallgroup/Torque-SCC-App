@@ -19,6 +19,7 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': 'off',
     'react/forbid-prop-types': 'off',
+    'react/require-default-props': 'off',
     //
     'react-hooks/exhaustive-deps': 'error',
     //

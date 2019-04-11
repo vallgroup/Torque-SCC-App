@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
-export const HomeContainer = styled.div`
+export const HomeRoot = styled.div`
   display: flex;
   height: 100%;
 
   .blocks {
     flex: 0 0 87.5%;
+    height: 100%;
   }
 
   .sidebar_wrapper {

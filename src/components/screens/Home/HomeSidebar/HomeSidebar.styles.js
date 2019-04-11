@@ -3,7 +3,7 @@ import { logoCornerHeight } from 'components/LogoCorner';
 
 export const sidebarPaddingSides = '7.5%';
 
-export const HomeSidebarContainer = styled.div`
+export const HomeSidebarRoot = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
