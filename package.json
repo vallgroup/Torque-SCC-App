@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --fix src/",
     "start": "webpack-dev-server --progress",
-    "build": "yarn lint && webpack --mode=production"
+    "build": "webpack --mode=production"
   },
   "author": "Torque",
   "license": "ISC",
