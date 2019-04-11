@@ -1,50 +1,46 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const BlockRoot = styled.div`
-  a {
+export const BlockRoot = styled(Link)`
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  background: ${({ theme, primary, secondary }) => theme.gradients.vertical(primary || theme.colors.primary, secondary || theme.colors.secondary)};
+
+  text-decoration: none;
+
+  img.title_icon {
     position: relative;
-    overflow: hidden;
+    z-index: 2;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
+    margin-bottom: 10%;
+    width: 30%;
+    height: auto;
+    max-width: 350px;
+    max-height: 350px;
+  }
 
-    background: ${({ theme, primary, secondary }) => theme.gradients.vertical(
-    primary || theme.colors.primary,
-    secondary || theme.colors.secondary,
-  )};
+  .block_heading {
+    position: relative;
+    z-index: 2;
 
-    text-decoration: none;
-
-    img.title_icon {
-      position: relative;
-      z-index: 2;
-
-      margin-bottom: 10%;
-      width: 30%;
-      height: auto;
-      max-width: 350px;
-      max-height: 350px;
-    }
-
-    .block_heading {
-      position: relative;
-      z-index: 2;
-
-      font-family: ${({ theme }) => theme.fonts.primary};
-      font-size: 2vw;
-      font-weight: 900;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      text-transform: uppercase;
-      text-align: center;
-      color: ${({ theme }) => theme.colors.white};
-    }
+    font-family: ${({ theme }) => theme.fonts.primary};
+    font-size: 2vw;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.white};
   }
 `;
 

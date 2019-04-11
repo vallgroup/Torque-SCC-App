@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const logoCornerHeight = '12.5vw';
 
-export const LogoCornerTriangle = styled.div`
+export const LogoCornerTriangle = styled(Link)`
   position: absolute;
   bottom: 0;
   right: 0;
