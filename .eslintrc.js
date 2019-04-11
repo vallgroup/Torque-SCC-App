@@ -17,6 +17,9 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks'],
   rules: {
+    'consistent-return': 'off',
+    'max-len': 'off',
+    //
     'react/jsx-filename-extension': 'off',
     'react/forbid-prop-types': 'off',
     'react/require-default-props': 'off',

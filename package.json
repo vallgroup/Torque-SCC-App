@@ -22,6 +22,7 @@
     "react-dom": "16.8.1",
     "react-redux": "^7.0.1",
     "react-router-dom": "^5.0.0",
+    "react-transition-group": "^2.9.0",
     "redux": "^4.0.1",
     "redux-api-middleware": "^3.0.1",
     "redux-thunk": "^2.3.0",
