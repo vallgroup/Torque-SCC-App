@@ -7,6 +7,9 @@ import {
   GET_PAGE_REQUEST,
   GET_PAGE_SUCCESS,
   GET_PAGE_FAILURE,
+  GET_SCREEN_SAVER_REQUEST,
+  GET_SCREEN_SAVER_SUCCESS,
+  GET_SCREEN_SAVER_FAILURE,
 } from 'store/types';
 
 export const init = () => ({
@@ -22,5 +25,13 @@ export const getPage = ({ pageId: id } = {}) => ({
     endpoint: createEndpoint('page', { id }),
     method: 'GET',
     types: [GET_PAGE_REQUEST, GET_PAGE_SUCCESS, GET_PAGE_FAILURE],
+  },
+});
+
+export const getScreenSaver = () => ({
+  [RSAA]: {
+    endpoint: createEndpoint('screen-saver'),
+    method: 'GET',
+    types: [GET_SCREEN_SAVER_REQUEST, GET_SCREEN_SAVER_SUCCESS, GET_SCREEN_SAVER_FAILURE],
   },
 });
