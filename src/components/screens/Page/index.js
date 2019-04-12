@@ -1,5 +1,5 @@
 import { memo } from 'react';
 
-const Page = () => null;
+const Home = () => null;
 
-export default memo(Page);
+export default memo(Home);

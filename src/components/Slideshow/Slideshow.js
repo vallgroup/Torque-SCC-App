@@ -1,9 +1,7 @@
 import React, { memo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useInterval } from 'hooks';
-import {
-  SlideshowRoot, Slide, slideClassName, slideTimeout,
-} from './Slideshow.styles';
+import { SlideshowRoot, Slide } from './Slideshow.styles';
 
 const Slideshow = ({ images, interval = 0, transition = 'fade' }) => {
   const [slide, setSlide] = useState(0);
@@ -29,10 +27,10 @@ const Slideshow = ({ images, interval = 0, transition = 'fade' }) => {
       {images.map((image, index) => (
         <Slide
           in={slide === index}
-          timeout={slideTimeout}
-          classNames={`${slideClassName}-${transition}`}
-          unmountOnExit
+          timeout={interval}
+          classNames={`slide-${transition}`}
           transition={transition}
+          unmountOnExit
         >
           <img src={image} alt="slideshow slide" />
         </Slide>
@@ -44,7 +42,7 @@ const Slideshow = ({ images, interval = 0, transition = 'fade' }) => {
 Slideshow.propTypes = {
   images: PropTypes.array.isRequired,
   interval: PropTypes.number,
-  transition: PropTypes.oneOf(['fade', 'slide']),
+  transition: PropTypes.oneOf(['fade', 'to-left']),
 };
 
 export default memo(Slideshow);

@@ -7,13 +7,9 @@ import { screenSaverSelectors } from 'store/screenSaver';
 import { getScreenSaver as getScreenSaverAction } from 'store/actions';
 import { useTimeout, useEnsureFetch } from 'hooks';
 import Slideshow from 'components/Slideshow';
-import {
-  ScreenSaverRoot,
-  transitionGroupClassName,
-  transitionGroupTimeout,
-} from './ScreenSaver.styles';
+import { ScreenSaverRoot } from './ScreenSaver.styles';
 
-const MINUTES_TO_MOUNT = 20;
+const MINUTES_TO_MOUNT = 0.05;
 
 const NON_IDLE_EVENTS = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
 
@@ -64,14 +60,16 @@ const ScreenSaver = ({ images, history, getScreenSaver }) => {
   return (
     <ScreenSaverRoot
       in={mounted}
-      timeout={transitionGroupTimeout}
-      classNames={transitionGroupClassName}
+      classNames="screen-saver-fade"
+      transition="fade"
+      speed={1000}
+      timeout={5000}
       unmountOnExit
       onExiting={handleScreenSaverExit}
       onClick={handleScreenSaverClick}
     >
       <div>
-        <Slideshow images={images} interval={10000} transition="slide" />
+        <Slideshow images={images} interval={10000} transition="to-left" />
       </div>
     </ScreenSaverRoot>
   );
