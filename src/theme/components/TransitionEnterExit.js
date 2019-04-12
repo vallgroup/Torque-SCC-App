@@ -12,6 +12,8 @@ const DEFAULT_SPEED = 500;
 
 export default styled(CSSTransition).attrs(props => ({
   classNames: props.classNames.replace(`-${props.transition}`, ''),
+  speedIn: props.speedIn || props.speedIn === 0 ? props.speedIn : props.speed || DEFAULT_SPEED,
+  speedOut: props.speedOut || props.speedOut === 0 ? props.speedOut : props.speed || DEFAULT_SPEED,
 }))`
   /* type: fade */
 
@@ -21,7 +23,7 @@ export default styled(CSSTransition).attrs(props => ({
 
   &.${({ classNames }) => classNames}-fade-enter-active {
     opacity: 1;
-    transition: opacity ${({ speed }) => speed || DEFAULT_SPEED}ms ease-out;
+    transition: opacity ${({ speedIn }) => speedIn}ms ease-out;
   }
 
   &.${({ classNames }) => classNames}-fade-enter-done {
@@ -34,7 +36,7 @@ export default styled(CSSTransition).attrs(props => ({
 
   &.${({ classNames }) => classNames}-fade-exit-active {
     opacity: 0;
-    transition: opacity ${({ speed }) => speed || DEFAULT_SPEED}ms ease-out;
+    transition: opacity ${({ speedOut }) => speedOut}ms ease-out;
   }
 
   &.${({ classNames }) => classNames}-fade-exit-done {
@@ -49,7 +51,7 @@ export default styled(CSSTransition).attrs(props => ({
 
   &.${({ classNames }) => classNames}-to-left-enter-active {
     left: 0;
-    transition: left ${({ speed }) => speed || DEFAULT_SPEED}ms ease-out;
+    transition: left ${({ speedIn }) => speedIn}ms ease-out;
   }
 
   &.${({ classNames }) => classNames}-to-left-enter-done {
@@ -62,7 +64,7 @@ export default styled(CSSTransition).attrs(props => ({
 
   &.${({ classNames }) => classNames}-to-left-exit-active {
     left: -100%;
-    transition: left ${({ speed }) => speed || DEFAULT_SPEED}ms ease-out;
+    transition: left ${({ speedOut }) => speedOut}ms ease-out;
   }
 
   &.${({ classNames }) => classNames}-to-left-exit-done {
