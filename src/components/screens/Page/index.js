@@ -1,5 +1,5 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 
-const Home = () => null;
+const Page = () => <div className="page" />;
 
-export default memo(Home);
+export default memo(Page);

@@ -9,7 +9,7 @@ import { useTimeout, useEnsureFetch } from 'hooks';
 import Slideshow from 'components/Slideshow';
 import { ScreenSaverRoot } from './ScreenSaver.styles';
 
-const MINUTES_TO_MOUNT = 0.05;
+const MINUTES_TO_MOUNT = 20;
 
 const NON_IDLE_EVENTS = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
 
