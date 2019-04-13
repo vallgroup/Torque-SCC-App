@@ -10,6 +10,8 @@ import {
   GET_SCREEN_SAVER_REQUEST,
   GET_SCREEN_SAVER_SUCCESS,
   GET_SCREEN_SAVER_FAILURE,
+  PAGE_ANIMATION_START,
+  PAGE_ANIMATION_FINISH,
 } from 'store/types';
 
 export const init = () => ({
@@ -34,4 +36,12 @@ export const getScreenSaver = () => ({
     method: 'GET',
     types: [GET_SCREEN_SAVER_REQUEST, GET_SCREEN_SAVER_SUCCESS, GET_SCREEN_SAVER_FAILURE],
   },
+});
+
+export const startPageAnimation = () => ({
+  type: PAGE_ANIMATION_START,
+});
+
+export const finishPageAnimation = () => ({
+  type: PAGE_ANIMATION_FINISH,
 });

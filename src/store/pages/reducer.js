@@ -1,7 +1,13 @@
-import { GET_INIT_SUCCESS, GET_PAGE_SUCCESS } from 'store/types';
+import { combineReducers } from 'redux';
+import {
+  GET_INIT_SUCCESS,
+  GET_PAGE_SUCCESS,
+  PAGE_ANIMATION_START,
+  PAGE_ANIMATION_FINISH,
+} from 'store/types';
 import unionBy from 'lodash.unionby';
 
-export default (state = [], action) => {
+const pages = (state = [], action) => {
   const { type, payload } = action;
 
   if (!payload?.success) return state; // eslint-disable-line
@@ -15,3 +21,23 @@ export default (state = [], action) => {
       return state;
   }
 };
+
+const isAnimating = (state = false, action) => {
+  const { type } = action;
+
+  switch (type) {
+    case PAGE_ANIMATION_START:
+      return true;
+
+    case PAGE_ANIMATION_FINISH:
+      return false;
+
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  pages,
+  isAnimating,
+});

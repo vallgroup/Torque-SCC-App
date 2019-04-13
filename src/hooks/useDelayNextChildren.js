@@ -4,16 +4,30 @@ import useTimeout from 'hooks/useTimeout';
 export default (children, delay) => {
   const [finalChildren, setFinalChildren] = useState(children);
 
-  const { reset } = useTimeout(() => {
-    setFinalChildren(children);
-  }, delay);
+  if (typeof children.key === 'undefined') console.warn('Children must have a key prop to be passed to useDelayNextChildren');
+
+  const currentChildren = finalChildren || null;
+  const nextChildren = children.key === currentChildren.key ? null : children;
+  const timeoutIsRunning = !!nextChildren;
+
+  const { reset } = useTimeout(
+    () => {
+      setFinalChildren(children);
+    },
+    delay,
+    timeoutIsRunning,
+  );
 
   useEffect(
     () => {
       reset();
     },
-    [reset, children],
+    [reset, children.key],
   );
 
-  return finalChildren || children || null;
+  return {
+    currentChildren,
+    nextChildren,
+    timeoutIsRunning,
+  };
 };

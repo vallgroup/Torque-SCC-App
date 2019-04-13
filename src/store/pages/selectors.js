@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-export const getPages = state => state.pages;
+export const getPages = state => state.pages.pages;
 
 const extractPageIdFromProps = (state, props) => props.pageId;
 
@@ -10,3 +10,5 @@ export const makeGetPageById = () => createSelector(
   [getPages, extractPageIdFromProps],
   (pages, id) => pages.filter(page => page.ID === id) || defaultPage,
 );
+
+export const getIsAnimating = state => state.pages.isAnimating;
