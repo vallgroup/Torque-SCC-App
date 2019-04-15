@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import compose from 'helpers/compose';
@@ -6,6 +6,7 @@ import { pageSelectors } from 'store/pages';
 import { getPage as getPageAction } from 'store/actions';
 import { useEnsureFetch } from 'hooks';
 import { RouteEnterExit } from 'theme';
+import PageImages from './PageImages';
 import PageSidebar from './PageSidebar';
 import { PageRoot, PageMainWrapper, PageSidebarWrapper } from './Page.styles';
 
@@ -25,7 +26,9 @@ const mapActions = {
 };
 
 const Page = ({ page, getPage }) => {
-  const { ID: id, type } = page;
+  const { ID: id, type, content, images, tabs } = page;
+
+  const [currentTab, setCurrentTab] = useState(0);
 
   // if we dont have page.type yet, it means we've only run the preliminary page request
   // so now we send the actual request, getting all the page content
@@ -33,10 +36,26 @@ const Page = ({ page, getPage }) => {
     if (id) getPage({ id });
   }, !type);
 
+  const currentImages = useMemo(
+    () => {
+      switch (type) {
+        case 'tabbed':
+          return tabs?.[currentTab]?.images || [];
+
+        case 'single':
+          return images;
+
+        default:
+          return [];
+      }
+    },
+    [type, currentTab, images],
+  );
+
   return (
     <PageRoot>
       <RouteEnterExit transitionIn="fade" transitionOut="to-left">
-        <PageMainWrapper>content</PageMainWrapper>
+        <PageMainWrapper>{currentImages && <PageImages images={currentImages} />}</PageMainWrapper>
       </RouteEnterExit>
 
       <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
