@@ -7,8 +7,6 @@ export const PageSidebarRoot = styled.div`
 
   .page_tabs_wrapper {
     flex: 0 0 12%;
-
-    background-color: red;
   }
 
   .content_wrapper {

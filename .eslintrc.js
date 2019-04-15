@@ -17,6 +17,8 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks'],
   rules: {
+    'jsx-a11y/alt-text': 'off',
+    //
     'consistent-return': 'off',
     'max-len': 'off',
     //

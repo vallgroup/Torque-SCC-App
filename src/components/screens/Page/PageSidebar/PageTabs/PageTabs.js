@@ -11,13 +11,14 @@ const mapState = state => ({
 
 const PageTabs = ({ match, pages }) => (
   <PageTabsRoot>
-    {pages.map(({ post_name: slug, colors, icons }) => {
+    {pages.map(({ ID: id, post_name: slug, colors, icons }) => {
       const isCurrentPage = match?.params?.pageSlug === slug; // eslint-disable-line
 
       const icon = isCurrentPage ? icons?.icon_empty : icons?.icon_filled; // eslint-disable-line
 
       return (
         <PageTab
+          key={id}
           to={slug}
           color={colors?.primary_color} // eslint-disable-line
         >

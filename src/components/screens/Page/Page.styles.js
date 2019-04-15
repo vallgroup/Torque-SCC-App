@@ -14,8 +14,6 @@ export const PageMainWrapper = styled.div`
   top: 0;
   width: 66.666%;
   height: 100%;
-
-  background-color: black;
 `;
 
 export const PageSidebarWrapper = styled.div`
@@ -24,8 +22,6 @@ export const PageSidebarWrapper = styled.div`
   top: 0;
   width: 33.333%;
   height: 100%;
-
-  background-color: green;
 
   &[class*='-to-left-enter-active'] {
     left: 66.666%;

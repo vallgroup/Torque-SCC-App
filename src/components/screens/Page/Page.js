@@ -40,7 +40,7 @@ const Page = ({ page, getPage }) => {
     () => {
       switch (type) {
         case 'tabbed':
-          return tabs?.[currentTab]?.images || [];
+          return tabs?.[currentTab]?.images || []; // eslint-disable-line
 
         case 'single':
           return images;
