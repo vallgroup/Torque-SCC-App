@@ -17,8 +17,10 @@ export const PageSidebarRoot = styled.div`
 `;
 
 export const ContentRoot = styled.div`
+  padding: 15vh 10% 5vh 15%;
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
 
   background: ${({ theme, primary, secondary }) => theme.gradients.vertical(primary || theme.colors.primary, secondary || theme.colors.secondary)};
 

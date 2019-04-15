@@ -25,7 +25,7 @@ const mapActions = {
 };
 
 const Page = ({ page, getPage }) => {
-  const { ID: id, post_title: title, colors, type } = page;
+  const { ID: id, type } = page;
 
   // if we dont have page.type yet, it means we've only run the preliminary page request
   // so now we send the actual request, getting all the page content
@@ -41,11 +41,7 @@ const Page = ({ page, getPage }) => {
 
       <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
         <PageSidebarWrapper>
-          <PageSidebar
-            title={title}
-            primary={colors?.primary_color} // eslint-disable-line
-            secondary={colors?.secondary_color} // eslint-disable-line
-          />
+          <PageSidebar page={page} />
         </PageSidebarWrapper>
       </RouteEnterExit>
     </PageRoot>
