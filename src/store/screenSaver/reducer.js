@@ -1,5 +1,4 @@
 import { GET_SCREEN_SAVER_SUCCESS } from 'store/types';
-import merge from 'lodash.merge';
 
 export default (state = [], action) => {
   const { type, payload } = action;

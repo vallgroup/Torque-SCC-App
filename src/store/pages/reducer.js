@@ -5,7 +5,7 @@ import {
   PAGE_ANIMATION_START,
   PAGE_ANIMATION_FINISH,
 } from 'store/types';
-import unionBy from 'lodash.unionby';
+import mergeArraysOfObjects from 'store/helpers/mergeArraysOfObjects';
 
 const pages = (state = [], action) => {
   const { type, payload } = action;
@@ -15,7 +15,11 @@ const pages = (state = [], action) => {
   switch (type) {
     case GET_INIT_SUCCESS:
     case GET_PAGE_SUCCESS:
-      return unionBy(state, payload.data.pages, 'ID');
+      return mergeArraysOfObjects(
+        state,
+        payload.data.pages,
+        (page1, page2) => page1.ID === page2.ID,
+      );
 
     default:
       return state;
