@@ -4,7 +4,7 @@ import { StyledTransitionEnterExit } from './TransitionEnterExit.styles';
 
 const DEFAULT_TIMEOUT = 500;
 
-export const TRANSITION_TYPES = ['fade', 'to-left'];
+export const TRANSITION_TYPES = ['fade', 'to-left', 'to-right'];
 
 // see http://reactcommunity.org/react-transition-group/css-transition for extra props
 //

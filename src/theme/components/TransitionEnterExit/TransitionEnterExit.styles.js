@@ -61,4 +61,32 @@ export const StyledTransitionEnterExit = styled(CSSTransition).attrs(props => ({
   &.${({ classNames }) => classNames}-to-left-exit-done {
     left: -100%;
   }
+
+  /* type: to-right */
+
+  &.${({ classNames }) => classNames}-to-right-enter {
+    left: -100%;
+  }
+
+  &.${({ classNames }) => classNames}-to-right-enter-active {
+    left: 0;
+    transition: left ${({ timeoutIn }) => timeoutIn}ms ease-out;
+  }
+
+  &.${({ classNames }) => classNames}-to-right-enter-done {
+    left: 0;
+  }
+
+  &.${({ classNames }) => classNames}-to-right-exit {
+    left: 0;
+  }
+
+  &.${({ classNames }) => classNames}-to-right-exit-active {
+    left: 100%;
+    transition: left ${({ timeoutOut }) => timeoutOut}ms ease-out;
+  }
+
+  &.${({ classNames }) => classNames}-to-right-exit-done {
+    left: 100%;
+  }
 `;

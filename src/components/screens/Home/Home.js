@@ -12,7 +12,7 @@ const mapState = state => ({
 });
 
 const Home = ({ isAnimating }) => (
-  <HomeTransition in={!isAnimating} classNames="home" transition="to-left" timeout={1000}>
+  <HomeTransition in={!isAnimating} classNames="home" transition="to-right" timeout={1000}>
     <HomeRoot>
       <div className="blocks">
         <HomeBlocks />
