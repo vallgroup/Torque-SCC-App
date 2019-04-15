@@ -1,14 +1,27 @@
-import styled from 'styled-components';
+import styled, { css, createGlobalStyle } from 'styled-components';
 
-const H2 = styled.h2`
+export const H2Style = css`
+  margin-top: 0;
+
   font-family: ${({ theme }) => theme.fonts.primary};
-  font-size: 30px;
-  font-weight: 900;
+  font-size: 1.8vw;
+  font-weight: 500;
   font-style: normal;
   font-stretch: normal;
   line-height: 1.11;
   letter-spacing: normal;
   color: ${({ theme }) => theme.colors.white};
+  text-transform: uppercase;
+`;
+
+export const H2Global = createGlobalStyle`
+  h2 {
+    ${H2Style}
+  }
+`;
+
+const H2 = styled.h2`
+  ${H2Style}
 `;
 
 export default H2;
