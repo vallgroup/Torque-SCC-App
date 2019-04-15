@@ -6,6 +6,7 @@ import { pageSelectors } from 'store/pages';
 import { getPage as getPageAction } from 'store/actions';
 import { useEnsureFetch } from 'hooks';
 import { RouteEnterExit } from 'theme';
+import PageSidebar from './PageSidebar';
 import { PageRoot, PageMainWrapper, PageSidebarWrapper } from './Page.styles';
 
 // see @see https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
@@ -24,11 +25,13 @@ const mapActions = {
 };
 
 const Page = ({ page, getPage }) => {
+  const { ID: id, post_title: title, colors, type } = page;
+
   // if we dont have page.type yet, it means we've only run the preliminary page request
   // so now we send the actual request, getting all the page content
   useEnsureFetch(() => {
-    if (page.ID) getPage({ id: page.ID });
-  }, !page.type);
+    if (id) getPage({ id });
+  }, !type);
 
   return (
     <PageRoot>
@@ -37,7 +40,13 @@ const Page = ({ page, getPage }) => {
       </RouteEnterExit>
 
       <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
-        <PageSidebarWrapper />
+        <PageSidebarWrapper>
+          <PageSidebar
+            title={title}
+            primary={colors?.primary_color} // eslint-disable-line
+            secondary={colors?.secondary_color} // eslint-disable-line
+          />
+        </PageSidebarWrapper>
       </RouteEnterExit>
     </PageRoot>
   );

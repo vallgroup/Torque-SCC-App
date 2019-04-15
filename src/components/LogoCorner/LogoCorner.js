@@ -14,7 +14,7 @@ const mapState = state => ({
 });
 
 const LogoCorner = ({ glenstarIcon, primaryColor, secondaryColor }) => (
-  <LogoCornerTriangle primaryColor={primaryColor} secondaryColor={secondaryColor}>
+  <LogoCornerTriangle to="/" primaryColor={primaryColor} secondaryColor={secondaryColor}>
     {glenstarIcon && <img src={glenstarIcon} alt="return to home" />}
   </LogoCornerTriangle>
 );
