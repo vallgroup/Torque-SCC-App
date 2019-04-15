@@ -22,7 +22,7 @@ export const init = () => ({
   },
 });
 
-export const getPage = ({ pageId: id } = {}) => ({
+export const getPage = ({ id } = {}) => ({
   [RSAA]: {
     endpoint: createEndpoint('page', { id }),
     method: 'GET',

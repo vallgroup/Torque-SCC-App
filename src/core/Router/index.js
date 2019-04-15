@@ -19,7 +19,10 @@ const Router = () => (
       render={({ location }) => (
         <DelayedSwitch location={location}>
           <Route exact path="/" component={Home} />
-          <Route path="/:page" component={Page} />
+          <Route
+            path="/:pageSlug"
+            render={({ match }) => <Page pageSlug={match?.params?.pageSlug} />}
+          />
         </DelayedSwitch>
       )}
     />

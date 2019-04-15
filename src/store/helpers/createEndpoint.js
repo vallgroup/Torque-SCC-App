@@ -3,7 +3,7 @@ const createQueryString = (queryObj) => {
 
   let queryStr = '?';
   Object.keys(queryObj).forEach((key) => {
-    queryStr = `${key}=${queryObj[key]}`;
+    queryStr += `${key}=${queryObj[key]}`;
   });
   return queryStr;
 };

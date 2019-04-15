@@ -1,5 +1,1 @@
-import React, { memo } from 'react';
-
-const Page = () => <div className="page" />;
-
-export default memo(Page);
+export { default } from './Page';

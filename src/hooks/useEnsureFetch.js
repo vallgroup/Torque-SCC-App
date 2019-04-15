@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 export default (fetchAction, shouldFetch) => {
   useEffect(
     () => {
-      if (shouldFetch) fetchAction();
+      if (shouldFetch && fetchAction) fetchAction();
     },
     [fetchAction, shouldFetch],
   );
