@@ -5,6 +5,8 @@ import compose from 'helpers/compose';
 import { pageSelectors } from 'store/pages';
 import { getPage as getPageAction } from 'store/actions';
 import { useEnsureFetch } from 'hooks';
+import { RouteEnterExit } from 'theme';
+import { PageRoot, PageMainWrapper, PageSidebarWrapper } from './Page.styles';
 
 // see @see https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 // for details about including props in make state, while keeping properly memoized selectors
@@ -28,11 +30,23 @@ const Page = ({ page, getPage }) => {
     if (page.ID) getPage({ id: page.ID });
   }, !page.type);
 
-  return null;
+  return (
+    <PageRoot>
+      <RouteEnterExit transitionIn="fade" transitionOut="to-left">
+        <PageMainWrapper>content</PageMainWrapper>
+      </RouteEnterExit>
+
+      <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
+        <PageSidebarWrapper />
+      </RouteEnterExit>
+    </PageRoot>
+  );
 };
 
 Page.propTypes = {
-  pageSlug: PropTypes.string.isRequired, // we pass this, and connect uses it to get the page from the store
+  // we pass this, and connect uses it to get the page from the store
+  pageSlug: PropTypes.string.isRequired, // eslint-disable-line
+  //
   page: PropTypes.object.isRequired, // from connect
   getPage: PropTypes.func.isRequired, // from connect
 };
