@@ -1,9 +1,12 @@
 import React, { memo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useInterval } from 'hooks';
+import { TRANSITION_TYPES } from 'theme';
 import { SlideshowRoot, Slide } from './Slideshow.styles';
 
-const Slideshow = ({ images, interval = 0, transition = 'fade' }) => {
+const Slideshow = ({
+  images, interval = 0, timeout, transition = 'fade',
+}) => {
   const [slide, setSlide] = useState(0);
 
   const incrementSlide = useCallback(
@@ -27,8 +30,8 @@ const Slideshow = ({ images, interval = 0, transition = 'fade' }) => {
       {images.map((image, index) => (
         <Slide
           in={slide === index}
-          timeout={interval}
-          classNames={`slide-${transition}`}
+          timeout={timeout}
+          classNames="slide"
           transition={transition}
           unmountOnExit
         >
@@ -42,7 +45,8 @@ const Slideshow = ({ images, interval = 0, transition = 'fade' }) => {
 Slideshow.propTypes = {
   images: PropTypes.array.isRequired,
   interval: PropTypes.number,
-  transition: PropTypes.oneOf(['fade', 'to-left']),
+  timeout: PropTypes.number,
+  transition: PropTypes.oneOf(TRANSITION_TYPES),
 };
 
 export default memo(Slideshow);

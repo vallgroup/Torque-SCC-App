@@ -7,7 +7,10 @@ export { default as H2 } from './components/Text/H2';
 export { default as H3 } from './components/Text/H3';
 export { default as P } from './components/Text/P';
 
-export { default as TransitionEnterExit } from './components/TransitionEnterExit';
+export {
+  default as TransitionEnterExit,
+} from './components/TransitionEnterExit/TransitionEnterExit';
+export { TRANSITION_TYPES } from './components/TransitionEnterExit/TransitionEnterExit';
 
 export default {
   gradients,

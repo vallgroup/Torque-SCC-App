@@ -60,16 +60,16 @@ const ScreenSaver = ({ images, history, getScreenSaver }) => {
   return (
     <ScreenSaverRoot
       in={mounted}
-      classNames="screen-saver-fade"
+      classNames="screen-saver"
       transition="fade"
-      speed={1000}
-      timeout={5000}
+      timeout={1000}
+      timeoutOut={500}
       unmountOnExit
       onExiting={handleScreenSaverExit}
       onClick={handleScreenSaverClick}
     >
       <div>
-        <Slideshow images={images} interval={10000} transition="to-left" />
+        <Slideshow images={images} interval={5000} timeout={500} transition="to-left" />
       </div>
     </ScreenSaverRoot>
   );

@@ -1,19 +1,10 @@
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 
-const DEFAULT_SPEED = 500;
-
-/**
- * Supported types:
- *
- * fade
- * to-left
- */
-
-export default styled(CSSTransition).attrs(props => ({
+export const StyledTransitionEnterExit = styled(CSSTransition).attrs(props => ({
   classNames: props.classNames.replace(`-${props.transition}`, ''),
-  speedIn: props.speedIn || props.speedIn === 0 ? props.speedIn : props.speed || DEFAULT_SPEED,
-  speedOut: props.speedOut || props.speedOut === 0 ? props.speedOut : props.speed || DEFAULT_SPEED,
+  timeoutIn: props.timeoutIn || props.timeoutIn === 0 ? props.timeoutIn : props.timeout,
+  timeoutOut: props.timeoutOut || props.timeoutOut === 0 ? props.timeoutOut : props.timeout,
 }))`
   /* type: fade */
 
@@ -23,7 +14,7 @@ export default styled(CSSTransition).attrs(props => ({
 
   &.${({ classNames }) => classNames}-fade-enter-active {
     opacity: 1;
-    transition: opacity ${({ speedIn }) => speedIn}ms ease-out;
+    transition: opacity ${({ timeoutIn }) => timeoutIn}ms ease-out;
   }
 
   &.${({ classNames }) => classNames}-fade-enter-done {
@@ -36,7 +27,7 @@ export default styled(CSSTransition).attrs(props => ({
 
   &.${({ classNames }) => classNames}-fade-exit-active {
     opacity: 0;
-    transition: opacity ${({ speedOut }) => speedOut}ms ease-out;
+    transition: opacity ${({ timeoutOut }) => timeoutOut}ms ease-out;
   }
 
   &.${({ classNames }) => classNames}-fade-exit-done {
@@ -51,7 +42,7 @@ export default styled(CSSTransition).attrs(props => ({
 
   &.${({ classNames }) => classNames}-to-left-enter-active {
     left: 0;
-    transition: left ${({ speedIn }) => speedIn}ms ease-out;
+    transition: left ${({ timeoutIn }) => timeoutIn}ms ease-out;
   }
 
   &.${({ classNames }) => classNames}-to-left-enter-done {
@@ -64,7 +55,7 @@ export default styled(CSSTransition).attrs(props => ({
 
   &.${({ classNames }) => classNames}-to-left-exit-active {
     left: -100%;
-    transition: left ${({ speedOut }) => speedOut}ms ease-out;
+    transition: left ${({ timeoutOut }) => timeoutOut}ms ease-out;
   }
 
   &.${({ classNames }) => classNames}-to-left-exit-done {

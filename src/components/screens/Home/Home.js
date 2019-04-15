@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import compose from 'helpers/compose';
 import { pageSelectors } from 'store/pages';
@@ -10,27 +11,21 @@ const mapState = state => ({
   isAnimating: pageSelectors.getIsAnimating(state),
 });
 
-const Home = ({ isAnimating }) => {
-  console.log(isAnimating);
+const Home = ({ isAnimating }) => (
+  <HomeTransition in={!isAnimating} classNames="home" transition="to-left" timeout={1000}>
+    <HomeRoot>
+      <div className="blocks">
+        <HomeBlocks />
+      </div>
+      <div className="sidebar_wrapper">
+        <HomeSidebar />
+      </div>
+    </HomeRoot>
+  </HomeTransition>
+);
 
-  return (
-    <HomeTransition
-      in={!isAnimating}
-      classNames="screen-saver-to-left"
-      transition="to-left"
-      speed={1000}
-      timeout={1000}
-    >
-      <HomeRoot>
-        <div className="blocks">
-          <HomeBlocks />
-        </div>
-        <div className="sidebar_wrapper">
-          <HomeSidebar />
-        </div>
-      </HomeRoot>
-    </HomeTransition>
-  );
+Home.propTypes = {
+  isAnimating: PropTypes.bool.isRequired,
 };
 
 export default compose(
