@@ -1,13 +1,10 @@
 import styled from 'styled-components';
-import { TransitionEnterExit } from 'theme';
 
-export const HomeTransition = styled(TransitionEnterExit)`
+export const HomeRoot = styled.div`
   position: absolute;
   left: 0;
   top: 0;
-`;
 
-export const HomeRoot = styled.div`
   display: flex;
   height: 100%;
   width: 100%;

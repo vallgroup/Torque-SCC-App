@@ -7,6 +7,7 @@ import { screenSaverSelectors } from 'store/screenSaver';
 import { getScreenSaver as getScreenSaverAction } from 'store/actions';
 import { useTimeout, useEnsureFetch } from 'hooks';
 import Slideshow from 'components/Slideshow';
+import { TransitionEnterExit } from 'theme';
 import { ScreenSaverRoot } from './ScreenSaver.styles';
 
 const MINUTES_TO_MOUNT = 20;
@@ -58,7 +59,7 @@ const ScreenSaver = ({ images, history, getScreenSaver }) => {
   const handleScreenSaverExit = () => history.push('/');
 
   return (
-    <ScreenSaverRoot
+    <TransitionEnterExit
       in={mounted}
       classNames="screen-saver"
       transition="fade"
@@ -68,10 +69,10 @@ const ScreenSaver = ({ images, history, getScreenSaver }) => {
       onExiting={handleScreenSaverExit}
       onClick={handleScreenSaverClick}
     >
-      <div>
+      <ScreenSaverRoot>
         <Slideshow images={images} interval={5000} timeout={500} transition="to-left" />
-      </div>
-    </ScreenSaverRoot>
+      </ScreenSaverRoot>
+    </TransitionEnterExit>
   );
 };
 

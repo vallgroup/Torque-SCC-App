@@ -1,7 +1,7 @@
 import React, { memo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useInterval } from 'hooks';
-import { TRANSITION_TYPES } from 'theme';
+import { TransitionEnterExit, TRANSITION_TYPES } from 'theme';
 import { SlideshowRoot, Slide } from './Slideshow.styles';
 
 const Slideshow = ({
@@ -28,15 +28,15 @@ const Slideshow = ({
   return (
     <SlideshowRoot>
       {images.map((image, index) => (
-        <Slide
+        <TransitionEnterExit
           in={slide === index}
           timeout={timeout}
           classNames="slide"
           transition={transition}
           unmountOnExit
         >
-          <img src={image} alt="slideshow slide" />
-        </Slide>
+          <Slide src={image} alt="slideshow slide" />
+        </TransitionEnterExit>
       ))}
     </SlideshowRoot>
   );

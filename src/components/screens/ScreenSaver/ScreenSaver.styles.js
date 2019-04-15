@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { TransitionEnterExit } from 'theme';
 
-export const ScreenSaverRoot = styled(TransitionEnterExit)`
+export const ScreenSaverRoot = styled.div`
   position: fixed;
   z-index: 1000;
   top: 0;

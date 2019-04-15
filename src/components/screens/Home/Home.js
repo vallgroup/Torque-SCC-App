@@ -1,18 +1,11 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import compose from 'helpers/compose';
-import { pageSelectors } from 'store/pages';
+import { RouteEnterExit } from 'theme';
 import HomeSidebar from './HomeSidebar';
 import HomeBlocks from './HomeBlocks';
-import { HomeRoot, HomeTransition } from './Home.styles';
+import { HomeRoot } from './Home.styles';
 
-const mapState = state => ({
-  isAnimating: pageSelectors.getIsAnimating(state),
-});
-
-const Home = ({ isAnimating }) => (
-  <HomeTransition in={!isAnimating} classNames="home" transition="to-right" timeout={1000}>
+const Home = () => (
+  <RouteEnterExit transition="to-right">
     <HomeRoot>
       <div className="blocks">
         <HomeBlocks />
@@ -21,17 +14,7 @@ const Home = ({ isAnimating }) => (
         <HomeSidebar />
       </div>
     </HomeRoot>
-  </HomeTransition>
+  </RouteEnterExit>
 );
 
-Home.propTypes = {
-  isAnimating: PropTypes.bool.isRequired,
-};
-
-export default compose(
-  connect(
-    mapState,
-    null,
-  ),
-  memo,
-)(Home);
+export default memo(Home);

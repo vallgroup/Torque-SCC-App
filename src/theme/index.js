@@ -11,6 +11,9 @@ export {
   default as TransitionEnterExit,
 } from './components/TransitionEnterExit/TransitionEnterExit';
 export { TRANSITION_TYPES } from './components/TransitionEnterExit/TransitionEnterExit';
+export {
+  default as RouteEnterExit,
+} from './components/TransitionEnterExit/RouteEnterExit/RouteEnterExit';
 
 export default {
   gradients,

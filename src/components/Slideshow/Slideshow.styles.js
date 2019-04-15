@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { TransitionEnterExit } from 'theme';
 
 export const SlideshowRoot = styled.div`
   position: relative;
@@ -7,7 +6,7 @@ export const SlideshowRoot = styled.div`
   height: 100%;
 `;
 
-export const Slide = styled(TransitionEnterExit)`
+export const Slide = styled.img`
   position: absolute;
   top: 0;
   left: 0;
