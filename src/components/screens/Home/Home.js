@@ -5,7 +5,7 @@ import HomeBlocks from './HomeBlocks';
 import { HomeRoot } from './Home.styles';
 
 const Home = () => (
-  <RouteEnterExit transition="to-right">
+  <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
     <HomeRoot>
       <div className="blocks">
         <HomeBlocks />
