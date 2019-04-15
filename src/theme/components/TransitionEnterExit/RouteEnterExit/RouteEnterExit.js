@@ -2,22 +2,30 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import compose from 'helpers/compose';
+import { withTheme } from 'styled-components';
 import { pageSelectors } from 'store/pages';
-import TransitionEnterExit, { TRANSITION_TYPES } from '../TransitionEnterExit';
+import TransitionEnterExit from '../TransitionEnterExit';
 
 const mapState = state => ({
   isAnimating: pageSelectors.getIsAnimating(state),
 });
 
-const RouteEnterExit = ({ isAnimating, transition, children }) => (
-  <TransitionEnterExit in={!isAnimating} classNames="route" transition={transition} timeout={1000}>
+const RouteEnterExit = ({
+  theme, isAnimating, children, ...TransitionEnterExitProps
+}) => (
+  <TransitionEnterExit
+    in={!isAnimating}
+    classNames="route"
+    timeout={theme.vars.SWITCH_DELAY}
+    {...TransitionEnterExitProps}
+  >
     {children}
   </TransitionEnterExit>
 );
 
 RouteEnterExit.propTypes = {
-  isAnimating: PropTypes.bool.isRequired,
-  transition: PropTypes.oneOf(TRANSITION_TYPES),
+  theme: PropTypes.object.isRequired, // from withTheme HOC
+  isAnimating: PropTypes.bool.isRequired, // from connect
   children: PropTypes.node.isRequired,
 };
 
@@ -26,5 +34,6 @@ export default compose(
     mapState,
     null,
   ),
+  withTheme,
   memo,
 )(RouteEnterExit);

@@ -1,6 +1,7 @@
 import gradients from './gradients';
 import colors from './colors';
 import fonts from './fonts';
+import vars from './vars';
 
 export { default as H1 } from './components/Text/H1';
 export { default as H2 } from './components/Text/H2';
@@ -19,4 +20,5 @@ export default {
   gradients,
   colors,
   fonts,
+  vars,
 };

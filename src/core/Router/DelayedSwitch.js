@@ -2,6 +2,7 @@ import React, { memo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import compose from 'helpers/compose';
 import { Switch } from 'react-router-dom';
+import { withTheme } from 'styled-components';
 import { useDelayNextChildren } from 'hooks';
 import { startPageAnimation, finishPageAnimation } from 'store/actions';
 
@@ -11,7 +12,7 @@ const mapActions = {
 };
 
 const DelayedSwitch = ({
-  location, children, startAnimation, finishAnimation,
+  theme, location, children, startAnimation, finishAnimation,
 }) => {
   const render = (
     <Switch location={location} key={location.key}>
@@ -19,7 +20,10 @@ const DelayedSwitch = ({
     </Switch>
   );
 
-  const { currentChildren, timeoutIsRunning } = useDelayNextChildren(render, 1000);
+  const { currentChildren, timeoutIsRunning } = useDelayNextChildren(
+    render,
+    theme.vars.SWITCH_DELAY,
+  );
 
   useEffect(
     () => {
@@ -40,5 +44,6 @@ export default compose(
     null,
     mapActions,
   ),
+  withTheme,
   memo,
 )(DelayedSwitch);
