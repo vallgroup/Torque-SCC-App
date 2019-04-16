@@ -28,13 +28,13 @@ const mapActions = {
 const Page = ({ page, getPage }) => {
   const { ID: id, type, content, images, tabs } = page;
 
-  const [currentTab, setCurrentTab] = useState(0);
-
   // if we dont have page.type yet, it means we've only run the preliminary page request
   // so now we send the actual request, getting all the page content
   useEnsureFetch(() => {
     if (id) getPage({ id });
   }, !type);
+
+  const [currentTab, setCurrentTab] = useState(0);
 
   const currentImages = useMemo(
     () => {
@@ -54,13 +54,13 @@ const Page = ({ page, getPage }) => {
 
   return (
     <PageRoot>
-      <RouteEnterExit transitionIn="fade" transitionOut="to-left">
+      <RouteEnterExit transitionIn="fade" timeoutIn={0} transitionOut="to-left">
         <PageMainWrapper>{currentImages && <PageImages images={currentImages} />}</PageMainWrapper>
       </RouteEnterExit>
 
       <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
         <PageSidebarWrapper>
-          <PageSidebar page={page} />
+          <PageSidebar page={page} currentTab={currentTab} setCurrentTab={setCurrentTab} />
         </PageSidebarWrapper>
       </RouteEnterExit>
     </PageRoot>

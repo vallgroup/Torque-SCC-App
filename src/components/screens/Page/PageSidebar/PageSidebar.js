@@ -3,6 +3,7 @@ import LogoCorner from 'components/LogoCorner';
 import { H1 } from 'theme';
 import PageTabs from './PageTabs';
 import ContentSingle from './ContentSingle';
+import ContentTabbed from './ContentTabbed';
 import { PageSidebarRoot, ContentRoot } from './PageSidebar.styles';
 
 const PageSidebar = ({ page, currentTab, setCurrentTab }) => {
@@ -25,6 +26,15 @@ const PageSidebar = ({ page, currentTab, setCurrentTab }) => {
               case 'single':
                 return <ContentSingle content={content} />;
 
+              case 'tabbed':
+                return (
+                  <ContentTabbed
+                    primary={colors?.primary_color} // eslint-disable-line
+                    tabs={tabs}
+                    currentTab={currentTab}
+                    setCurrentTab={setCurrentTab}
+                  />
+                );
 
               default:
                 return null;
