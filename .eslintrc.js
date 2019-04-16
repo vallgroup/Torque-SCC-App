@@ -18,6 +18,8 @@ module.exports = {
   plugins: ['react', 'react-hooks'],
   rules: {
     'jsx-a11y/alt-text': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
     //
     'consistent-return': 'off',
     'max-len': 'off',

@@ -1,21 +1,46 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { PageImagesGrid, ImageCell } from './PageImages.styles';
+import Slideshow from 'components/Slideshow';
+import { Root, PageImagesGrid, ImageCell } from './PageImages.styles';
 
-const PageImages = ({ images }) => (
-  <PageImagesGrid>
-    {images.map(image => (
-      <ImageCell
-        key={image.image}
-        src={image.image}
-        rowStart={image.row_start}
-        rowEnd={image.row_end}
-        colStart={image.column_start}
-        colEnd={image.column_end}
-      />
-    ))}
-  </PageImagesGrid>
-);
+const PageImages = ({ images }) => {
+  const [showSlideshow, setShowSlideshow] = useState(false);
+  const switchToSlideshow = () => setShowSlideshow(true);
+  const switchToGrid = () => setShowSlideshow(false);
+
+  const imageSrcs = useMemo(() => images.map(image => image.image), [images]);
+
+  return (
+    <Root>
+      {showSlideshow ? (
+        <Slideshow images={imageSrcs} interval={5000} timeout={500} transition="to-left" />
+      ) : (
+        <PageImagesGrid>
+          {images.map(image => (
+            <ImageCell
+              key={image.image}
+              src={image.image}
+              rowStart={image.row_start}
+              rowEnd={image.row_end}
+              colStart={image.column_start}
+              colEnd={image.column_end}
+            />
+          ))}
+        </PageImagesGrid>
+      )}
+
+      <div className="slideshow_switch">
+        <div className="slideshow" onClick={switchToSlideshow} />
+        <div className="grid" onClick={switchToGrid}>
+          <div className="grid_cell" />
+          <div className="grid_cell" />
+          <div className="grid_cell" />
+          <div className="grid_cell" />
+        </div>
+      </div>
+    </Root>
+  );
+};
 
 PageImages.propTypes = {
   images: PropTypes.arrayOf(
