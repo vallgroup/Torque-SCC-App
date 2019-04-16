@@ -17,6 +17,7 @@ const RouteEnterExit = ({
     in={!isAnimating}
     classNames="route"
     timeout={theme.vars.SWITCH_DELAY}
+    mountOnEnter
     {...TransitionEnterExitProps}
   >
     {children}
