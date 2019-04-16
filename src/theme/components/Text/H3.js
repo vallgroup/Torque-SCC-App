@@ -1,10 +1,11 @@
 import styled, { createGlobalStyle, css } from 'styled-components';
-import H2Style from './H2';
+import { H2Style } from './H2';
 
 const H3Style = css`
   ${H2Style}
 
-  margin-top: 0;
+  margin-top: 5%;
+  margin-bottom: 2%;
 
   text-decoration: underline;
 `;

@@ -2,9 +2,10 @@ import styled, { css, createGlobalStyle } from 'styled-components';
 
 export const H2Style = css`
   margin-top: 0;
+  margin-bottom: 3%;
 
   font-family: ${({ theme }) => theme.fonts.primary};
-  font-size: 1.8vw;
+  font-size: 1.7vw;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;

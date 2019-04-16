@@ -2,10 +2,11 @@ import React, { memo } from 'react';
 import LogoCorner from 'components/LogoCorner';
 import { H1 } from 'theme';
 import PageTabs from './PageTabs';
+import ContentSingle from './ContentSingle';
 import { PageSidebarRoot, ContentRoot } from './PageSidebar.styles';
 
-const PageSidebar = ({ page }) => {
-  const { post_title: title, colors, type } = page;
+const PageSidebar = ({ page, currentTab, setCurrentTab }) => {
+  const { post_title: title, colors, type, tabs, content } = page;
 
   return (
     <PageSidebarRoot>
@@ -14,12 +15,28 @@ const PageSidebar = ({ page }) => {
       </div>
 
       <div className="content_wrapper">
-        <ContentRoot primary={colors?.primary_color} secondary={colors?.secondary_color}>
+        <ContentRoot
+          primary={colors?.primary_color} // eslint-disable-line
+          secondary={colors?.secondary_color} // eslint-disable-line
+        >
           <H1>{title}</H1>
+          {(() => {
+            switch (type) {
+              case 'single':
+                return <ContentSingle content={content} />;
+
+
+              default:
+                return null;
+            }
+          })()}
         </ContentRoot>
       </div>
 
-      <LogoCorner primaryColor={colors?.primary_color} secondaryColor={colors?.secondary_color} />
+      <LogoCorner
+        primaryColor={colors?.primary_color} // eslint-disable-line
+        secondaryColor={colors?.secondary_color} // eslint-disable-line
+      />
     </PageSidebarRoot>
   );
 };

@@ -29,7 +29,7 @@ const ImageOnLoaded = ({ className, ...imageProps }) => {
       className={className}
       classNames="image-on-loaded"
       transition="fade"
-      timeout={300}
+      timeout={600}
     >
       <img ref={imageRef} {...imageProps} />
     </TransitionEnterExit>

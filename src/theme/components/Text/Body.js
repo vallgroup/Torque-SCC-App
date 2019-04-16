@@ -16,6 +16,8 @@ export const BodyGlobal = createGlobalStyle`
     ${BodyStyle}
 
     ul {
+      margin-top: 1%;
+      margin-bottom: 1%;
       padding-left: 7%;
 
       li {
@@ -28,7 +30,8 @@ export const BodyGlobal = createGlobalStyle`
 const PStyle = css`
   ${BodyStyle}
 
-  margin-bottom: 40px;
+  margin-top: 1%;
+  margin-bottom: 2%;
 `;
 
 export const PGlobal = createGlobalStyle`

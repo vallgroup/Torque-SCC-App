@@ -2,6 +2,7 @@ import styled, { css, createGlobalStyle } from 'styled-components';
 
 const H1Style = css`
   margin-top: 0;
+  margin-bottom: 2%;
 
   font-family: ${({ theme }) => theme.fonts.primary};
   font-size: 3.2vw;
