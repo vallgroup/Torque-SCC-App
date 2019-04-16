@@ -10,7 +10,7 @@ export const StyledTransitionEnterExit = styled(CSSTransition)`
 
   &.${({ classNameBase }) => classNameBase}-fade-enter-active {
     opacity: 1;
-    transition: opacity ${({ timeoutIn }) => timeoutIn}ms ease-out;
+    transition: opacity ${({ timeoutIn }) => timeoutIn}ms ease-in;
   }
 
   &.${({ classNameBase }) => classNameBase}-fade-enter-done {
@@ -23,7 +23,7 @@ export const StyledTransitionEnterExit = styled(CSSTransition)`
 
   &.${({ classNameBase }) => classNameBase}-fade-exit-active {
     opacity: 0;
-    transition: opacity ${({ timeoutOut }) => timeoutOut}ms ease-out;
+    transition: opacity ${({ timeoutOut }) => timeoutOut}ms ease-in;
   }
 
   &.${({ classNameBase }) => classNameBase}-fade-exit-done {
@@ -38,7 +38,7 @@ export const StyledTransitionEnterExit = styled(CSSTransition)`
 
   &.${({ classNameBase }) => classNameBase}-to-left-enter-active {
     left: 0;
-    transition: left ${({ timeoutIn }) => timeoutIn}ms ease-out;
+    transition: left ${({ timeoutIn }) => timeoutIn}ms ease-in;
   }
 
   &.${({ classNameBase }) => classNameBase}-to-left-enter-done {
@@ -51,7 +51,7 @@ export const StyledTransitionEnterExit = styled(CSSTransition)`
 
   &.${({ classNameBase }) => classNameBase}-to-left-exit-active {
     left: -100%;
-    transition: left ${({ timeoutOut }) => timeoutOut}ms ease-out;
+    transition: left ${({ timeoutOut }) => timeoutOut}ms ease-in;
   }
 
   &.${({ classNameBase }) => classNameBase}-to-left-exit-done {
@@ -66,7 +66,7 @@ export const StyledTransitionEnterExit = styled(CSSTransition)`
 
   &.${({ classNameBase }) => classNameBase}-to-right-enter-active {
     left: 0;
-    transition: left ${({ timeoutIn }) => timeoutIn}ms ease-out;
+    transition: left ${({ timeoutIn }) => timeoutIn}ms ease-in;
   }
 
   &.${({ classNameBase }) => classNameBase}-to-right-enter-done {
@@ -79,7 +79,7 @@ export const StyledTransitionEnterExit = styled(CSSTransition)`
 
   &.${({ classNameBase }) => classNameBase}-to-right-exit-active {
     left: 100%;
-    transition: left ${({ timeoutOut }) => timeoutOut}ms ease-out;
+    transition: left ${({ timeoutOut }) => timeoutOut}ms ease-in;
   }
 
   &.${({ classNameBase }) => classNameBase}-to-right-exit-done {
