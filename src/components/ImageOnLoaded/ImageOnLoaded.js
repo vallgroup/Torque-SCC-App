@@ -1,4 +1,5 @@
 import React, { memo, useRef, useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { TransitionEnterExit } from 'theme';
 
 const ImageOnLoaded = ({ className, ...imageProps }) => {
@@ -7,7 +8,7 @@ const ImageOnLoaded = ({ className, ...imageProps }) => {
 
   // check the image ref directly for the 'complete' property, in case it's already loaded
   useEffect(() => {
-    if (!loaded && imageRef?.current?.complete) setLoaded(true);
+    if (!loaded && imageRef?.current?.complete) setLoaded(true); // eslint-disable-line
   });
 
   // if not yet loaded, attach an event listener for when the image loading completes
@@ -29,11 +30,15 @@ const ImageOnLoaded = ({ className, ...imageProps }) => {
       className={className}
       classNames="image-on-loaded"
       transition="fade"
-      timeout={600}
+      timeout={500}
     >
-      <img ref={imageRef} {...imageProps} />
+      <Image ref={imageRef} {...imageProps} />
     </TransitionEnterExit>
   );
 };
+
+const Image = styled.img`
+  opacity: 0;
+`;
 
 export default memo(ImageOnLoaded);
