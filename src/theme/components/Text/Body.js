@@ -9,6 +9,9 @@ const BodyStyle = css`
   line-height: 1.17;
   letter-spacing: -0.1px;
   color: ${({ theme }) => theme.colors.white};
+
+  user-select: false;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 export const BodyGlobal = createGlobalStyle`
