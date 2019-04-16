@@ -20,7 +20,10 @@ export const ContentRoot = styled.div`
   width: 100%;
   box-sizing: border-box;
 
-  background: ${({ theme, primary, secondary }) => theme.gradients.vertical(primary || theme.colors.primary, secondary || theme.colors.secondary)};
+  background: ${({ theme, primary, secondary }) => theme.gradients.horizontal(
+    primary || theme.colors.primary,
+    secondary || theme.colors.secondary,
+  )};
 
   h1 {
     margin-top: 0;
