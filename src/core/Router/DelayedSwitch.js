@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import compose from 'helpers/compose';
 import { Switch } from 'react-router-dom';
@@ -14,10 +14,20 @@ const mapActions = {
 const DelayedSwitch = ({
   theme, location, children, startAnimation, finishAnimation,
 }) => {
-  const render = (
-    <Switch location={location} key={location.key}>
-      {children}
-    </Switch>
+  const render = useMemo(
+    () => (
+      <Switch location={location} key={location.key}>
+        {children}
+      </Switch>
+    ),
+    [location.pathname], // eslint-disable-line
+    // Note:
+    // technically here we're lying to the useMemo dependencies,
+    // but it's a special case where do actually want to block updates
+    // unless the pathname itself has changed.
+    //
+    // This is so if you click to navigate to the same page youre already on,
+    // we wont see the route animation, even though location.key has changed
   );
 
   const { currentChildren, timeoutIsRunning } = useDelayNextChildren(
