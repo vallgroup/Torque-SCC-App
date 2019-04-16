@@ -29,15 +29,17 @@ const PageImages = ({ images }) => {
         </PageImagesGrid>
       )}
 
-      <div className="slideshow_switch">
-        <div className="slideshow" onClick={switchToSlideshow} />
-        <div className="grid" onClick={switchToGrid}>
-          <div className="grid_cell" />
-          <div className="grid_cell" />
-          <div className="grid_cell" />
-          <div className="grid_cell" />
+      {images.length > 1 && (
+        <div className="slideshow_switch">
+          <div className="slideshow" onClick={switchToSlideshow} />
+          <div className="grid" onClick={switchToGrid}>
+            <div className="grid_cell" />
+            <div className="grid_cell" />
+            <div className="grid_cell" />
+            <div className="grid_cell" />
+          </div>
         </div>
-      </div>
+      )}
     </Root>
   );
 };
