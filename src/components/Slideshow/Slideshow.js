@@ -1,35 +1,50 @@
-import React, { memo, useState, useCallback } from 'react';
+import React, {
+  Fragment, memo, useCallback, useState, useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
-import { useInterval } from 'hooks';
-import { TransitionEnterExit, TRANSITION_TYPES } from 'theme';
-import { SlideshowRoot, Slide } from './Slideshow.styles';
+import { useInterval, usePrevious } from 'hooks';
+import { TransitionEnterExit } from 'theme';
+import throttle from 'lodash.throttle';
+import {
+  SlideshowRoot, Slide, ButtonLeft, ButtonRight,
+} from './Slideshow.styles';
 
-const Slideshow = ({
-  images, interval = 0, timeout, transition = 'fade',
-}) => {
+const Slideshow = ({ images, interval = 0, timeout }) => {
   const [slide, setSlide] = useState(0);
 
+  // useCallback here ensures that we arent creating a new function on each render
+  // (which would break the throttling)
   const incrementSlide = useCallback(
-    () => {
-      setSlide(prevSlide => (prevSlide + 1) % images.length);
-    },
-    [images.length],
+    throttle(() => setSlide(currSlide => currSlide + 1), timeout),
+    [],
   );
-
   const decrementSlide = useCallback(
-    () => {
-      setSlide(prevSlide => (prevSlide - 1) % images.length);
-    },
-    [images.length],
+    throttle(() => setSlide(currSlide => currSlide - 1), timeout),
+    [],
   );
 
+  // maybe set up an interval to auto play the slider
   useInterval(incrementSlide, interval);
+
+  // calculate slide modulo images length
+  // https://stackoverflow.com/a/47354356/7583056
+  const moduloSlide = useMemo(() => ((slide % images.length) + images.length) % images.length, [
+    slide,
+    images.length,
+  ]);
+
+  // keep track of previous slide so we know which way we went
+  const prevSlide = usePrevious(slide);
+
+  // different trasition depending on if we're going right or left
+  const transition = (prevSlide || 0) > slide ? 'to-right' : 'to-left';
 
   return (
     <SlideshowRoot>
       {images.map((image, index) => (
         <TransitionEnterExit
-          in={slide === index}
+          key={image}
+          in={moduloSlide === index}
           timeout={timeout}
           classNames="slide"
           transition={transition}
@@ -38,6 +53,13 @@ const Slideshow = ({
           <Slide src={image} alt="slideshow slide" />
         </TransitionEnterExit>
       ))}
+
+      {!interval && (
+        <Fragment>
+          <ButtonLeft onClick={decrementSlide} />
+          <ButtonRight onClick={incrementSlide} />
+        </Fragment>
+      )}
     </SlideshowRoot>
   );
 };
@@ -46,7 +68,6 @@ Slideshow.propTypes = {
   images: PropTypes.array.isRequired,
   interval: PropTypes.number,
   timeout: PropTypes.number,
-  transition: PropTypes.oneOf(TRANSITION_TYPES),
 };
 
 export default memo(Slideshow);

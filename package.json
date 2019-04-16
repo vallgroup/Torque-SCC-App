@@ -15,6 +15,7 @@
     "@babel/runtime": "^7.0.0",
     "classnames": "^2.2.6",
     "lodash.merge": "^4.6.1",
+    "lodash.throttle": "^4.1.1",
     "path": "^0.12.7",
     "prop-types": "^15.6.2",
     "react": "^16.8.1",

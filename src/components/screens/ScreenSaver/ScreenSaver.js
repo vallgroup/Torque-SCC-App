@@ -70,7 +70,7 @@ const ScreenSaver = ({ images, history, getScreenSaver }) => {
       onClick={handleScreenSaverClick}
     >
       <ScreenSaverRoot>
-        <Slideshow images={images} interval={5000} timeout={500} transition="to-left" />
+        <Slideshow images={images} interval={5000} timeout={500} />
       </ScreenSaverRoot>
     </TransitionEnterExit>
   );

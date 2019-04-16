@@ -16,6 +16,8 @@ export {
   default as RouteEnterExit,
 } from './components/TransitionEnterExit/RouteEnterExit/RouteEnterExit';
 
+export { default as HollowTriangle } from './components/Shapes/HollowTriangle';
+
 export default {
   gradients,
   colors,

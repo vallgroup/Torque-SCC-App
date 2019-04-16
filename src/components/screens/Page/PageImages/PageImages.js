@@ -13,7 +13,7 @@ const PageImages = ({ images }) => {
   return (
     <Root>
       {showSlideshow ? (
-        <Slideshow images={imageSrcs} interval={5000} timeout={500} transition="to-left" />
+        <Slideshow images={imageSrcs} interval={0} timeout={500} />
       ) : (
         <PageImagesGrid>
           {images.map(image => (
