@@ -7,14 +7,38 @@ export const SlideshowRoot = styled.div`
   height: 100%;
 `;
 
-export const Slide = styled.img`
+export const Slide = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 
-  object-fit: cover;
+  img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+
+  .caption {
+    position: absolute;
+    top: 5%;
+    left: 0;
+    padding: 2% 5%;
+    max-width: 70%;
+    box-sizing: border-box;
+
+    font-weight: 900;
+    font-size: 2vw;
+    text-align: center;
+    text-transform: uppercase;
+
+    background: ${({ theme, primary, secondary }) => theme.gradients.horizontal(
+    primary || theme.colors.primary,
+    secondary || theme.colors.secondary,
+  )};
+  }
 `;
 
 export const ButtonLeft = styled(HollowTriangle).attrs(({ theme }) => ({

@@ -9,7 +9,9 @@ import {
   SlideshowRoot, Slide, ButtonLeft, ButtonRight,
 } from './Slideshow.styles';
 
-const Slideshow = ({ images, interval = 0, timeout }) => {
+const Slideshow = ({
+  images, interval = 0, timeout, primary, secondary,
+}) => {
   const [slide, setSlide] = useState(0);
 
   // useCallback here ensures that we arent creating a new function on each render
@@ -54,7 +56,11 @@ const Slideshow = ({ images, interval = 0, timeout }) => {
             transition={transition}
             unmountOnExit
           >
-            <Slide src={src} alt="slideshow slide" />
+            <Slide primary={primary} secondary={secondary}>
+              <img src={src} alt="slideshow slide" />
+
+              {caption && <div className="caption">{caption}</div>}
+            </Slide>
           </TransitionEnterExit>
         );
       })}

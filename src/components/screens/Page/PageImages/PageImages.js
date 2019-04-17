@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Slideshow from 'components/Slideshow';
 import { Root, PageImagesGrid, ImageCell } from './PageImages.styles';
 
-const PageImages = ({ images }) => {
+const PageImages = ({ images, colors }) => {
   const [showSlideshow, setShowSlideshow] = useState(false);
   const switchToSlideshow = () => setShowSlideshow(true);
   const switchToGrid = () => setShowSlideshow(false);
@@ -13,7 +13,13 @@ const PageImages = ({ images }) => {
   return (
     <Root>
       {showSlideshow ? (
-        <Slideshow images={slideshowImages} interval={0} timeout={500} />
+        <Slideshow
+          images={slideshowImages}
+          interval={0}
+          timeout={500}
+          primary={colors?.primary_color}
+          secondary={colors?.secondary_color}
+        />
       ) : (
         <PageImagesGrid>
           {images.map(image => (
@@ -57,6 +63,7 @@ PageImages.propTypes = {
       column_end: PropTypes.string.isRequired,
     }),
   ),
+  colors: PropTypes.object,
 };
 
 export default memo(PageImages);
