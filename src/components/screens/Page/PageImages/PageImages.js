@@ -8,18 +8,18 @@ const PageImages = ({ images }) => {
   const switchToSlideshow = () => setShowSlideshow(true);
   const switchToGrid = () => setShowSlideshow(false);
 
-  const imageSrcs = useMemo(() => images.map(image => image.image), [images]);
+  const slideshowImages = useMemo(() => images.map(image => image.image), [images]);
 
   return (
     <Root>
       {showSlideshow ? (
-        <Slideshow images={imageSrcs} interval={0} timeout={500} />
+        <Slideshow images={slideshowImages} interval={0} timeout={500} />
       ) : (
         <PageImagesGrid>
           {images.map(image => (
             <ImageCell
-              key={image.image}
-              src={image.image}
+              key={image.image.url}
+              src={image.image.url}
               rowStart={image.row_start}
               rowEnd={image.row_end}
               colStart={image.column_start}
@@ -47,7 +47,10 @@ const PageImages = ({ images }) => {
 PageImages.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
-      image: PropTypes.string.isRequired,
+      image: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        caption: PropTypes.string,
+      }),
       row_start: PropTypes.string.isRequired,
       row_end: PropTypes.string.isRequired,
       column_start: PropTypes.string.isRequired,

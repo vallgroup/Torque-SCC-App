@@ -41,18 +41,23 @@ const Slideshow = ({ images, interval = 0, timeout }) => {
 
   return (
     <SlideshowRoot>
-      {images.map((image, index) => (
-        <TransitionEnterExit
-          key={image}
-          in={moduloSlide === index}
-          timeout={timeout}
-          classNames="slide"
-          transition={transition}
-          unmountOnExit
-        >
-          <Slide src={image} alt="slideshow slide" />
-        </TransitionEnterExit>
-      ))}
+      {images.map((image, index) => {
+        const { caption } = image;
+        const src = image.url || image;
+
+        return (
+          <TransitionEnterExit
+            key={src}
+            in={moduloSlide === index}
+            timeout={timeout}
+            classNames="slide"
+            transition={transition}
+            unmountOnExit
+          >
+            <Slide src={src} alt="slideshow slide" />
+          </TransitionEnterExit>
+        );
+      })}
 
       {!interval && (
         <Fragment>
@@ -65,7 +70,16 @@ const Slideshow = ({ images, interval = 0, timeout }) => {
 };
 
 Slideshow.propTypes = {
-  images: PropTypes.array.isRequired,
+  // array of images... image can be either just a src string or an object with {src, caption}
+  images: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        caption: PropTypes.string,
+      }),
+    ),
+    PropTypes.string.isRequired,
+  ]),
   interval: PropTypes.number,
   timeout: PropTypes.number,
 };
