@@ -2,6 +2,9 @@ import React, { memo, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { TransitionEnterExit } from 'theme';
 
+// Keep an image hidden until it's been successfully dowloaded,
+// then transition it in
+
 const ImageOnLoaded = ({ className, ...imageProps }) => {
   const [loaded, setLoaded] = useState(false);
   const imageRef = useRef(null);

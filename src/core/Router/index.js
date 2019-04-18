@@ -21,7 +21,7 @@ const Router = () => (
           <Route exact path="/" component={Home} />
           <Route
             path="/:pageSlug"
-            render={({ match }) => <Page pageSlug={match?.params?.pageSlug} />} // eslint-disable-line
+            component={Page} // eslint-disable-line
           />
         </DelayedSwitch>
       )}

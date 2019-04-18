@@ -1,7 +1,16 @@
 import React, { memo, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import compose from 'helpers/compose';
+import { withRouter } from 'react-router-dom';
+import { pageSelectors } from 'store/pages';
 import Slideshow from 'components/Slideshow';
 import { Root, PageImagesGrid, ImageCell } from './PageImages.styles';
+
+const mapState = (state, props) => ({
+  images: pageSelectors.getImages(state, props),
+  colors: pageSelectors.getColors(state, props),
+});
 
 const PageImages = ({ images, colors }) => {
   const [showSlideshow, setShowSlideshow] = useState(false);
@@ -17,8 +26,8 @@ const PageImages = ({ images, colors }) => {
           images={slideshowImages}
           interval={0}
           timeout={500}
-          primary={colors?.primary_color}
-          secondary={colors?.secondary_color}
+          primary={colors.primary}
+          secondary={colors.secondary}
         />
       ) : (
         <PageImagesGrid>
@@ -66,4 +75,11 @@ PageImages.propTypes = {
   colors: PropTypes.object,
 };
 
-export default memo(PageImages);
+export default compose(
+  withRouter,
+  connect(
+    mapState,
+    null,
+  ),
+  memo,
+)(PageImages);

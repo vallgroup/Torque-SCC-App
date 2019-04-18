@@ -1,4 +1,4 @@
-import React, { memo, useState, useMemo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import compose from 'helpers/compose';
@@ -14,31 +14,16 @@ import { PageRoot, PageMainWrapper, PageSidebarWrapper } from './Page.styles';
 // see @see https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 // for details about including props in make state, while keeping properly memoized selectors
 //
-const makeMapState = () => {
-  const getPageBySlug = pageSelectors.makeGetPageBySlug();
-
-  return (state, { pageSlug }) => ({
-    page: getPageBySlug(state, { pageSlug }),
-  });
-};
+const mapState = (state, props) => ({
+  page: pageSelectors.getPageFromRouterMatch(state, props),
+});
 
 const mapActions = {
   getPage: getPageAction,
 };
 
 const Page = ({ page, getPage }) => {
-  const {
-    ID: id,
-    colors,
-    type,
-    // single only
-    content,
-    images,
-    // tabbed and map
-    tabs,
-    // map only
-    map_settings,
-  } = page;
+  const { ID: id, type } = page;
 
   // if we dont have page.type yet, it means we've only run the preliminary page request
   // so now we send the actual request, getting all the page content
@@ -46,37 +31,20 @@ const Page = ({ page, getPage }) => {
     if (id) getPage({ id });
   }, !type);
 
-  const [currentTab, setCurrentTab] = useState(0);
-
-  const currentImages = useMemo(
-    () => {
-      switch (type) {
-        case 'tabbed':
-        case 'map':
-          return tabs?.[currentTab]?.images || []; // eslint-disable-line
-
-        case 'single':
-          return images;
-
-        default:
-          return [];
-      }
-    },
-    [type, currentTab, images],
-  );
+  if (!page) return null;
 
   return (
     <PageRoot>
       <RouteEnterExit transitionIn="fade" timeoutIn={0} transitionOut="to-left">
         <PageMainWrapper>
-          {type === 'map' && <Map settings={map_settings} poiSearch={tabs?.[currentTab]?.pois} />}
-          {Boolean(currentImages?.length) && <PageImages images={currentImages} colors={colors} />}
+          {type === 'map' && <Map />}
+          <PageImages />
         </PageMainWrapper>
       </RouteEnterExit>
 
       <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
         <PageSidebarWrapper>
-          <PageSidebar page={page} currentTab={currentTab} setCurrentTab={setCurrentTab} />
+          <PageSidebar />
         </PageSidebarWrapper>
       </RouteEnterExit>
     </PageRoot>
@@ -84,16 +52,13 @@ const Page = ({ page, getPage }) => {
 };
 
 Page.propTypes = {
-  // we pass this, and connect uses it to get the page from the store
-  pageSlug: PropTypes.string.isRequired, // eslint-disable-line
-  //
   page: PropTypes.object.isRequired, // from connect
   getPage: PropTypes.func.isRequired, // from connect
 };
 
 export default compose(
   connect(
-    makeMapState,
+    mapState,
     mapActions,
   ),
   memo,

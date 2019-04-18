@@ -4,6 +4,7 @@ import {
   GET_PAGE_SUCCESS,
   PAGE_ANIMATION_START,
   PAGE_ANIMATION_FINISH,
+  SET_CURRENT_TAB,
 } from 'store/types';
 import mergeArraysOfObjects from 'store/helpers/mergeArraysOfObjects';
 
@@ -20,6 +21,18 @@ const pages = (state = [], action) => {
         payload.data.pages,
         (page1, page2) => page1.ID === page2.ID,
       );
+
+    default:
+      return state;
+  }
+};
+
+const currentTab = (state = 0, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case SET_CURRENT_TAB:
+      return payload;
 
     default:
       return state;
@@ -43,5 +56,6 @@ const isAnimating = (state = false, action) => {
 
 export default combineReducers({
   pages,
+  currentTab,
   isAnimating,
 });
