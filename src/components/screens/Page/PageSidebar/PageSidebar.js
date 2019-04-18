@@ -27,9 +27,11 @@ const PageSidebar = ({ page, currentTab, setCurrentTab }) => {
                 return <ContentSingle content={content} />;
 
               case 'tabbed':
+              case 'map':
                 return (
                   <ContentTabbed
                     primary={colors?.primary_color} // eslint-disable-line
+                    type={type}
                     tabs={tabs}
                     currentTab={currentTab}
                     setCurrentTab={setCurrentTab}

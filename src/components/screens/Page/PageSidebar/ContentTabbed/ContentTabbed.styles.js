@@ -13,6 +13,7 @@ export const Tab = styled.div`
   flex: 1 1 auto;
   border: 2px solid ${({ theme }) => theme.colors.white};
   padding: 2% 5%;
+  min-width: 33%;
   box-sizing: border-box;
 
   text-transform: uppercase;
