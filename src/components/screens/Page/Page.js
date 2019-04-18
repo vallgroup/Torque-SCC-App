@@ -6,6 +6,7 @@ import { pageSelectors } from 'store/pages';
 import { getPage as getPageAction } from 'store/actions';
 import { useEnsureFetch } from 'hooks';
 import { RouteEnterExit } from 'theme';
+import Map from 'components/Map';
 import PageImages from './PageImages';
 import PageSidebar from './PageSidebar';
 import { PageRoot, PageMainWrapper, PageSidebarWrapper } from './Page.styles';
@@ -26,7 +27,18 @@ const mapActions = {
 };
 
 const Page = ({ page, getPage }) => {
-  const { ID: id, colors, type, content, images, tabs } = page;
+  const {
+    ID: id,
+    colors,
+    type,
+    // single only
+    content,
+    images,
+    // tabbed and map
+    tabs,
+    // map only
+    map_settings,
+  } = page;
 
   // if we dont have page.type yet, it means we've only run the preliminary page request
   // so now we send the actual request, getting all the page content
@@ -57,7 +69,8 @@ const Page = ({ page, getPage }) => {
     <PageRoot>
       <RouteEnterExit transitionIn="fade" timeoutIn={0} transitionOut="to-left">
         <PageMainWrapper>
-          {currentImages && <PageImages images={currentImages} colors={colors} />}
+          {type === 'map' && <Map settings={map_settings} poiSearch={tabs?.[currentTab]?.pois} />}
+          {Boolean(currentImages?.length) && <PageImages images={currentImages} colors={colors} />}
         </PageMainWrapper>
       </RouteEnterExit>
 
