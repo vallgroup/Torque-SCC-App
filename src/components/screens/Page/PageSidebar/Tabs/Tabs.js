@@ -18,13 +18,13 @@ const mapActions = {
   setCurrentTab: setCurrentTabAction,
 };
 
-const Tabs = ({ tabs, colors, currentTabIndex, setCurrentTab }) => {
-  // reset tab index if tabs change
+const Tabs = ({ match, tabs, colors, currentTabIndex, setCurrentTab }) => {
+  // reset tab index if page slug changes
   useEffect(
     () => {
       setCurrentTab(0);
     },
-    [tabs, setCurrentTab],
+    [match.params.pageSlug, setCurrentTab],
   );
 
   // create a click handler for each index

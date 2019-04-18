@@ -4,14 +4,19 @@ import { connect } from 'react-redux';
 import compose from 'helpers/compose';
 import { withRouter } from 'react-router-dom';
 import { pageSelectors } from 'store/pages';
+import { updatePois as updatePoisAction } from 'store/actions';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import Geocode from './helpers/Geocode';
-import NearbySearch from './helpers/NearbySearch';
 
 const mapState = (state, props) => ({
+  tabIndex: pageSelectors.getCurrentTabIndex(state, props),
   pois: pageSelectors.getPois(state, props),
   settings: pageSelectors.getMapSettings(state, props),
 });
+
+const mapActions = {
+  updatePois: updatePoisAction,
+};
 
 export class TorqueMap extends React.Component {
   constructor(props) {
@@ -21,7 +26,6 @@ export class TorqueMap extends React.Component {
 
     this.state = {
       mapCenter: {}, // lat a& lng object
-      markers: [],
       selectedPlace: {},
       activeMarker: {},
       showingInfoWindow: false,
@@ -36,15 +40,15 @@ export class TorqueMap extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { pois } = this.props;
+    const { tabIndex } = this.props;
     const { mapCenter } = this.state;
-    const { pois: prevPois } = prevProps;
+    const { tabIndex: prevTabIndex } = prevProps;
     const { mapCenter: prevMapCenter } = prevState;
 
     const gotFirstMapCenter =
       !Object.keys(prevMapCenter || {}).length && Object.keys(mapCenter || {}).length;
 
-    if (pois !== prevPois || gotFirstMapCenter) {
+    if (tabIndex !== prevTabIndex || gotFirstMapCenter) {
       if (this.map.current) {
         this.findPois();
       }
@@ -105,29 +109,26 @@ export class TorqueMap extends React.Component {
   };
 
   renderMarkers() {
-    const { google } = this.props;
-    const { markers } = this.state;
+    const { google, pois } = this.props;
 
     const width = 60;
     const height = 100;
 
-    const filteredMarkers = markers.filter(
-      marker => !!marker && marker.longitude && marker.latitude,
-    );
+    const filteredPois = pois.filter(poi => !!poi && poi.longitude && poi.latitude);
 
-    return filteredMarkers.map((marker, index) => (
+    return filteredPois.map((poi, index) => (
       <Marker
-        key={marker.name}
+        key={poi.name}
         onClick={this.onMarkerClick}
-        name={marker.name}
-        position={{ lng: marker.longitude, lat: marker.latitude }}
+        name={poi.name}
+        position={{ lng: poi.longitude, lat: poi.latitude }}
         icon={{
-          url: marker.icon,
+          url: poi.icon,
           anchor: new google.maps.Point(width / 2, height),
           size: new google.maps.Size(width, height),
           scaledSize: new google.maps.Size(width, height),
         }}
-        infowindow={this.getInfoWindowForMarker(marker)}
+        infowindow={this.getInfoWindowForMarker(poi)}
       />
     ));
   }
@@ -177,8 +178,9 @@ export class TorqueMap extends React.Component {
     const {
       google,
       settings: { center, zoom, style, center_marker_icon: centerMarker },
+      pois,
     } = this.props;
-    const { mapCenter, markers, activeMarker, showingInfoWindow, selectedPlace } = this.state;
+    const { mapCenter, activeMarker, showingInfoWindow, selectedPlace } = this.state;
 
     return (
       <div onClick={this.onMapClick} className="torque-map-container">
@@ -190,7 +192,7 @@ export class TorqueMap extends React.Component {
           styles={(style && JSON.parse(style)) || undefined}
         >
           {center && centerMarker && this.renderCenterMarker()}
-          {markers && markers.length > 0 && this.renderMarkers()}
+          {pois && pois.length > 0 && this.renderMarkers()}
 
           <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
             <div>
@@ -214,11 +216,17 @@ export class TorqueMap extends React.Component {
   };
 
   findPois = async () => {
-    const { pois } = this.props;
+    const {
+      pois,
+      updatePois,
+      match: {
+        params: { pageSlug },
+      },
+    } = this.props;
 
-    const markers = await Promise.all(pois.map(this.findPoi));
+    const newPois = await Promise.all(pois.map(this.findPoi));
 
-    this.setState({ markers });
+    updatePois({ pageSlug, pois: newPois });
   };
 
   findPoi = async poi => {
@@ -241,7 +249,9 @@ export class TorqueMap extends React.Component {
 }
 
 TorqueMap.propTypes = {
-  pois: PropTypes.array.isRequired,
+  tabIndex: PropTypes.number.isRequired, // from connect
+  pois: PropTypes.array.isRequired, // from connect
+  // from connect
   settings: PropTypes.shape({
     api_key: PropTypes.string.isRequired,
     center: PropTypes.string.isRequired,
@@ -249,13 +259,14 @@ TorqueMap.propTypes = {
     center_marker_icon: PropTypes.string.isRequired,
     style: PropTypes.string,
   }),
+  updatePois: PropTypes.func.isRequired, // from connect
 };
 
 export default compose(
   withRouter,
   connect(
     mapState,
-    null,
+    mapActions,
   ),
   GoogleApiWrapper(props => ({
     apiKey: props.settings.api_key,

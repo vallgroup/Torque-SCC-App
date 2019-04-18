@@ -25,6 +25,11 @@ export const getPageFromRouterMatch = createSelector(
   (pages, slug) => pages.filter(page => page.post_name === slug)[0] || defaultPage,
 );
 
+export const getPageID = createSelector(
+  [getPageFromRouterMatch],
+  page => page.ID || 0,
+);
+
 // get colors object
 //
 const getPageColors = page => ({

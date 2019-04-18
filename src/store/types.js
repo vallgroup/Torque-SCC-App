@@ -3,6 +3,7 @@ const PAGE_BASE = '@@page';
 const SCREEN_SAVER_BASE = '@@screen-saver';
 const ANIMATION_BASE = '@@page-animation';
 const TABS_BASE = '@@tabs';
+const POI_BASE = '@@pois';
 
 const GET_INIT_REQUEST = `${INIT_BASE}/GET_INIT_REQUEST`;
 const GET_INIT_SUCCESS = `${INIT_BASE}/GET_INIT_SUCCESS`;
@@ -21,6 +22,8 @@ const PAGE_ANIMATION_FINISH = `${ANIMATION_BASE}/PAGE_ANIMATION_FINISH`;
 
 const SET_CURRENT_TAB = `${TABS_BASE}/SET_CURRENT_TAB`;
 
+const UPDATE_POIS = `${POI_BASE}/UPDATE_POIS`;
+
 export {
   GET_INIT_SUCCESS,
   GET_INIT_REQUEST,
@@ -34,4 +37,5 @@ export {
   PAGE_ANIMATION_START,
   PAGE_ANIMATION_FINISH,
   SET_CURRENT_TAB,
+  UPDATE_POIS,
 };

@@ -13,7 +13,9 @@ import {
   SET_CURRENT_TAB,
   PAGE_ANIMATION_START,
   PAGE_ANIMATION_FINISH,
+  UPDATE_POIS,
 } from 'store/types';
+import { pageSelectors } from 'store/pages';
 
 /**
  * @see https://www.npmjs.com/package/redux-api-middleware#introduction for more info on the redux api middleware pattern
@@ -66,3 +68,20 @@ export const startPageAnimation = () => ({
 export const finishPageAnimation = () => ({
   type: PAGE_ANIMATION_FINISH,
 });
+
+export const updatePois = ({ pageSlug, pois }) => (dispatch, getState) => {
+  const state = getState();
+  const simulatedProps = { match: { params: { pageSlug } } };
+
+  const pageId = pageSelectors.getPageID(state, simulatedProps);
+  const tabIndex = pageSelectors.getCurrentTabIndex(state, simulatedProps);
+
+  dispatch({
+    payload: {
+      pageId,
+      tabIndex,
+      pois,
+    },
+    type: UPDATE_POIS,
+  });
+};
