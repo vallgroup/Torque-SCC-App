@@ -2,18 +2,21 @@ import styled from 'styled-components';
 
 export const ContentTabbedRoot = styled.div`
   .tabs_wrapper {
-    display: flex;
-    flex-wrap: wrap;
-
     margin-bottom: 5%;
+
+    &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
   }
 `;
 
 export const Tab = styled.div`
-  flex: 1 1 auto;
+  float: left;
   border: 2px solid ${({ theme }) => theme.colors.white};
   padding: 2% 5%;
-  min-width: 33%;
+  min-width: 25%;
   box-sizing: border-box;
 
   text-transform: uppercase;
