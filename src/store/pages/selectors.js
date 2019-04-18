@@ -129,6 +129,31 @@ export const getTabContent = createSelector(
   getPageTabContent,
 );
 
+// get page map settings
+//
+const getPageMapSettings = page => page.map_settings || {};
+
+export const getMapSettings = createSelector(
+  [getPageFromRouterMatch],
+  getPageMapSettings,
+);
+
+const getTabPois = currentTab => {
+  if (currentTab.type !== 'pois') return [];
+
+  const { default_poi_icon: defaultIcon } = currentTab;
+
+  return currentTab.pois.map(poi => {
+    if (!poi.icon) poi.icon = defaultIcon;
+    return poi;
+  });
+};
+
+export const getPois = createSelector(
+  [getCurrentTab],
+  getTabPois,
+);
+
 // isAnimating selectors
 
 export const getIsAnimating = state => state.pages.isAnimating;

@@ -1,8 +1,16 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import compose from 'helpers/compose';
+import { withRouter } from 'react-router-dom';
+import { pageSelectors } from 'store/pages';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import Geocode from './helpers/Geocode';
-import NearbySearch from './helpers/NearbySearch';
+
+const mapState = (state, props) => ({
+  pois: pageSelectors.getPois(state, props),
+  settings: pageSelectors.getMapSettings(state, props),
+});
 
 export class TorqueMap extends React.Component {
   constructor(props) {
@@ -13,7 +21,6 @@ export class TorqueMap extends React.Component {
     this.state = {
       mapCenter: {}, // lat a& lng object
       markers: [],
-      markerIcon: settings.poi_icon,
       selectedPlace: {},
       activeMarker: {},
       showingInfoWindow: false,
@@ -28,17 +35,17 @@ export class TorqueMap extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { poiSearch } = this.props;
+    const { pois } = this.props;
     const { mapCenter } = this.state;
-    const { poiSearch: prevPoiSearch } = prevProps;
+    const { pois: prevPois } = prevProps;
     const { mapCenter: prevMapCenter } = prevState;
 
     const gotFirstMapCenter =
       !Object.keys(prevMapCenter || {}).length && Object.keys(mapCenter || {}).length;
 
-    if (poiSearch !== prevPoiSearch || gotFirstMapCenter) {
-      if (this.map.current && poiSearch) {
-        this.nearbySearch();
+    if (pois !== prevPois || gotFirstMapCenter) {
+      if (this.map.current) {
+        this.findPois();
       }
     }
   }
@@ -97,15 +104,15 @@ export class TorqueMap extends React.Component {
   };
 
   renderMarkers() {
-    const {
-      settings: { poi_icon: markersIcon },
-      google,
-    } = this.props;
+    const { google } = this.props;
     const { markers } = this.state;
 
     const width = 60;
     const height = 100;
 
+    console.log(markers);
+
+    /*
     const filteredMarkers = markers.filter(marker => !!marker);
 
     return filteredMarkers.map((marker, index) => (
@@ -115,7 +122,7 @@ export class TorqueMap extends React.Component {
         name={marker.name}
         position={marker.geometry.location}
         icon={{
-          url: markersIcon,
+          url: marker.url,
           anchor: new google.maps.Point(width / 2, height),
           size: new google.maps.Size(width, height),
           scaledSize: new google.maps.Size(width, height),
@@ -123,6 +130,7 @@ export class TorqueMap extends React.Component {
         infowindow={this.getInfoWindowForMarker(marker)}
       />
     ));
+    */
   }
 
   getInfoWindowForMarker = marker => {
@@ -216,88 +224,62 @@ export class TorqueMap extends React.Component {
     );
   }
 
-  setMapCenterFromProps() {
+  setMapCenterFromProps = async () => {
     const {
       settings: { center },
     } = this.props;
 
-    if (center) this.geocode();
-  }
+    if (center) {
+      const coords = await this.geocode(center);
+      this.updateMapCenter(coords);
+    }
+  };
 
-  async geocode() {
-    const {
-      settings: { center: address },
-    } = this.props;
+  findPois = async () => {
+    const { pois } = this.props;
 
+    const markers = await Promise.all(pois.map(this.findPoi));
+
+    this.setState({ markers });
+  };
+
+  findPoi = async poi => {
+    if (poi.address && !(poi.longitude || poi.latitude)) {
+      // if user didnt pass long an lat, we have to find them ourselves
+      //
+      const coords = await this.geocode(poi.address);
+      poi.longitude = coords.lng;
+      poi.latitude = coords.lat;
+    }
+
+    return poi;
+  };
+
+  geocode = async address => {
     const geoClient = new Geocode();
     const coordinates = await geoClient.geocode({ address });
-    this.updateMapCenter(coordinates);
-  }
-
-  nearbySearch() {
-    const { poiSearch } = this.props;
-
-    if (!(this.map.current && this.map.current.map)) {
-      return;
-    }
-
-    if (!poiSearch) {
-      return;
-    }
-
-    this.setState({
-      markers: [],
-      markerIcon: null,
-    });
-
-    const keywords = poiSearch.split(',');
-    if (!this.searchClient) this.searchClient = new NearbySearch(this.map.current.map);
-
-    keywords.forEach((kWord, idx) => {
-      this.doSearch(kWord);
-    });
-  }
-
-  async doSearch(keyword) {
-    const {
-      settings: { poi_icon },
-    } = this.props;
-    const { mapCenter, markers } = this.state;
-
-    const results = await this.searchClient.search({
-      keyword,
-      location: mapCenter,
-      radius: 1000,
-    });
-
-    if (results) {
-      if (results.length === 0) {
-        console.warn(`${keyword} did not return any results.`);
-        return;
-      }
-
-      const markers = [...markers, ...results];
-
-      // add markers and call our callback
-      this.setState({
-        markers,
-        markerIcon: poi_icon,
-      });
-    }
-  }
+    return coordinates;
+  };
 }
 
 TorqueMap.propTypes = {
-  poiSearch: PropTypes.string,
+  pois: PropTypes.array.isRequired,
   settings: PropTypes.shape({
+    api_key: PropTypes.string.isRequired,
     center: PropTypes.string.isRequired,
     zoom: PropTypes.string.isRequired,
     center_marker_icon: PropTypes.string.isRequired,
-    poi_icon: PropTypes.string.isRequired,
     style: PropTypes.string,
   }),
 };
 
-export default GoogleApiWrapper(props => ({
-  apiKey: props.settings.api_key,
-}))(TorqueMap);
+export default compose(
+  withRouter,
+  connect(
+    mapState,
+    null,
+  ),
+  GoogleApiWrapper(props => ({
+    apiKey: props.settings.api_key,
+  })),
+)(TorqueMap);

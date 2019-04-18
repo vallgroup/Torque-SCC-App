@@ -20,7 +20,7 @@ const mapActions = {
 };
 
 const Page = ({ page, getPage }) => {
-  const { ID: id, type, map_settings: mapSettings } = page;
+  const { ID: id, type } = page;
 
   // if we dont have page.type yet, it means we've only run the preliminary page request
   // so now we send the actual request, getting all the page content
@@ -33,7 +33,7 @@ const Page = ({ page, getPage }) => {
     <PageRoot>
       <RouteEnterExit transitionIn="fade" timeoutIn={0} transitionOut="to-left">
         <PageMainWrapper>
-          {type === 'map' && <Map settings={mapSettings} />}
+          {type === 'map' && <Map />}
           <PageImages />
         </PageMainWrapper>
       </RouteEnterExit>
