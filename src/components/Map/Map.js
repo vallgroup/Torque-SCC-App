@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { pageSelectors } from 'store/pages';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import Geocode from './helpers/Geocode';
+import NearbySearch from './helpers/NearbySearch';
 
 const mapState = (state, props) => ({
   pois: pageSelectors.getPois(state, props),
@@ -110,19 +111,18 @@ export class TorqueMap extends React.Component {
     const width = 60;
     const height = 100;
 
-    console.log(markers);
-
-    /*
-    const filteredMarkers = markers.filter(marker => !!marker);
+    const filteredMarkers = markers.filter(
+      marker => !!marker && marker.longitude && marker.latitude,
+    );
 
     return filteredMarkers.map((marker, index) => (
       <Marker
-        key={marker.id}
+        key={marker.name}
         onClick={this.onMarkerClick}
         name={marker.name}
-        position={marker.geometry.location}
+        position={{ lng: marker.longitude, lat: marker.latitude }}
         icon={{
-          url: marker.url,
+          url: marker.icon,
           anchor: new google.maps.Point(width / 2, height),
           size: new google.maps.Size(width, height),
           scaledSize: new google.maps.Size(width, height),
@@ -130,32 +130,14 @@ export class TorqueMap extends React.Component {
         infowindow={this.getInfoWindowForMarker(marker)}
       />
     ));
-    */
   }
 
   getInfoWindowForMarker = marker => {
-    const {
-      name,
-      distance,
-      place_id,
-      opening_hours,
-      price_level,
-      rating,
-      user_ratings_total,
-      vicinity,
-      photos,
-    } = marker;
+    const { name, distance } = marker;
 
     const info = {
       name,
       distance,
-      placeID: place_id,
-      openingHours: opening_hours,
-      dollarSigns: price_level,
-      rating,
-      reviews: user_ratings_total,
-      vicinity,
-      photos,
     };
 
     return info;
@@ -174,10 +156,6 @@ export class TorqueMap extends React.Component {
         <div className="torque-map-infowindow">
           <div>
             <h3>{infowindow.name}</h3>
-            <p>{infowindow.vicinity}</p>
-            {infowindow.openingHours && (
-              <p>{infowindow.openingHours.open_now ? <b>Open</b> : <b>closed</b>}</p>
-            )}
           </div>
         </div>
       );
