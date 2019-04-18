@@ -5,7 +5,8 @@ import compose from 'helpers/compose';
 import { withRouter } from 'react-router-dom';
 import { pageSelectors } from 'store/pages';
 import Slideshow from 'components/Slideshow';
-import { Root, PageImagesGrid, ImageCell } from './PageImages.styles';
+import ImagesGrid, { IMAGES_GRID_IMAGES_TYPE } from 'components/ImagesGrid';
+import { Root, SlideshowGridSwitch } from './PageImages.styles';
 
 const mapState = (state, props) => ({
   images: pageSelectors.getImages(state, props),
@@ -30,22 +31,11 @@ const PageImages = ({ images, colors }) => {
           secondary={colors.secondary}
         />
       ) : (
-        <PageImagesGrid>
-          {images.map(image => (
-            <ImageCell
-              key={image.image.url}
-              src={image.image.url}
-              rowStart={image.row_start}
-              rowEnd={image.row_end}
-              colStart={image.column_start}
-              colEnd={image.column_end}
-            />
-          ))}
-        </PageImagesGrid>
+        <ImagesGrid images={images} />
       )}
 
       {images.length > 1 && (
-        <div className="slideshow_switch">
+        <SlideshowGridSwitch>
           <div className="slideshow" onClick={switchToSlideshow} />
           <div className="grid" onClick={switchToGrid}>
             <div className="grid_cell" />
@@ -53,25 +43,14 @@ const PageImages = ({ images, colors }) => {
             <div className="grid_cell" />
             <div className="grid_cell" />
           </div>
-        </div>
+        </SlideshowGridSwitch>
       )}
     </Root>
   );
 };
 
 PageImages.propTypes = {
-  images: PropTypes.arrayOf(
-    PropTypes.shape({
-      image: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        caption: PropTypes.string,
-      }),
-      row_start: PropTypes.string.isRequired,
-      row_end: PropTypes.string.isRequired,
-      column_start: PropTypes.string.isRequired,
-      column_end: PropTypes.string.isRequired,
-    }),
-  ),
+  images: IMAGES_GRID_IMAGES_TYPE,
   colors: PropTypes.object,
 };
 

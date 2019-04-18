@@ -6,6 +6,10 @@ import { withTheme } from 'styled-components';
 import { pageSelectors } from 'store/pages';
 import TransitionEnterExit from '../TransitionEnterExit';
 
+/**
+ * Wrap around any component to have it transition with the route animation
+ */
+
 const mapState = state => ({
   isAnimating: pageSelectors.getIsAnimating(state),
 });

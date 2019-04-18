@@ -19,10 +19,7 @@ const Router = () => (
       render={({ location }) => (
         <DelayedSwitch location={location}>
           <Route exact path="/" component={Home} />
-          <Route
-            path="/:pageSlug"
-            component={Page} // eslint-disable-line
-          />
+          <Route path="/:pageSlug" component={Page} />
         </DelayedSwitch>
       )}
     />

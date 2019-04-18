@@ -1,3 +1,8 @@
+/**
+ * Object of key: value pairs to a query string
+ *
+ * { key1: value1, key2: value2 } => ?key1=value1&key2=value2
+ */
 const createQueryString = (queryObj) => {
   if (!queryObj || !Object.keys(queryObj).length) return '';
 
@@ -8,6 +13,9 @@ const createQueryString = (queryObj) => {
   return queryStr;
 };
 
+/**
+ * Attach the endpoint and query to our base url
+ */
 export default (endpoint, queryObj) => {
   const queryStr = createQueryString(queryObj);
 

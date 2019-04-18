@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
-export const ContentTabbedRoot = styled.div`
-  .tabs_wrapper {
-    margin-bottom: 5%;
+export const TabsRoot = styled.div`
+  margin-bottom: 5%;
 
-    &::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
   }
 `;
 

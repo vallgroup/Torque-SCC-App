@@ -11,7 +11,10 @@ export const LogoCornerTriangle = styled(Link)`
   width: ${logoCornerHeight};
 
   clip-path: polygon(100% 0, 100% 0, 100% 100%, 0% 100%);
-  background: ${({ theme, primaryColor, secondaryColor }) => theme.gradients.vertical(primaryColor, secondaryColor)};
+  background: ${({ theme, primaryColor, secondaryColor }) => theme.gradients.vertical(
+    primaryColor || theme.colors.primary,
+    secondaryColor || theme.colors.secondary,
+  )};
 
   img {
     position: absolute;

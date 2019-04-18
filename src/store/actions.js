@@ -10,9 +10,25 @@ import {
   GET_SCREEN_SAVER_REQUEST,
   GET_SCREEN_SAVER_SUCCESS,
   GET_SCREEN_SAVER_FAILURE,
+  SET_CURRENT_TAB,
   PAGE_ANIMATION_START,
   PAGE_ANIMATION_FINISH,
 } from 'store/types';
+
+/**
+ * @see https://www.npmjs.com/package/redux-api-middleware#introduction for more info on the redux api middleware pattern
+ *
+ * In essence:
+ * we give the action creator 3 types, request/success/failure,
+ * and we give it the details it needs to fetch data (url, headers etc)
+ *
+ * When it sends the fetch, it dispatches an action with our request type
+ *
+ * if it's successful, it disaptches an action with our success type, with the response data as the action payload
+ *
+ * if it fails, it dispatches an action with our failure type
+ *
+ */
 
 export const init = () => ({
   [RSAA]: {
@@ -36,6 +52,11 @@ export const getScreenSaver = () => ({
     method: 'GET',
     types: [GET_SCREEN_SAVER_REQUEST, GET_SCREEN_SAVER_SUCCESS, GET_SCREEN_SAVER_FAILURE],
   },
+});
+
+export const setCurrentTab = index => ({
+  payload: index,
+  type: SET_CURRENT_TAB,
 });
 
 export const startPageAnimation = () => ({

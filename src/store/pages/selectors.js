@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 
-// page selectors
+// page selectors using props
+//
+//
 // @see https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 
 export const getPages = state => state.pages.pages;
@@ -35,7 +37,16 @@ export const getColors = createSelector(
   getPageColors,
 );
 
-// get current tab
+// get title
+//
+const getPageTitle = page => page.post_title || '';
+
+export const getTitle = createSelector(
+  [getPageFromRouterMatch],
+  getPageTitle,
+);
+
+// get tabs
 //
 const defaultTabIndex = 0;
 const defaultTab = null;
@@ -47,7 +58,7 @@ export const getPageTabs = createSelector(
   page => page.tabs,
 );
 
-export const getPageCurrentTab = (page, currentTabIndex) => {
+const getPageCurrentTab = (page, currentTabIndex) => {
   const { type, tabs } = page;
 
   switch (type) {
@@ -56,7 +67,7 @@ export const getPageCurrentTab = (page, currentTabIndex) => {
 
     case 'tabbed':
     case 'map':
-      return tabs[currentTabIndex];
+      return tabs?.[currentTabIndex] || defaultTab;
 
     default:
       return defaultTab;
@@ -68,20 +79,20 @@ const getCurrentTab = createSelector(
   getPageCurrentTab,
 );
 
-// get page images
+// get page/tab images
 //
 const defaultImages = [];
 
-export const getPageImages = (page, currentTab) => {
+const getPageImages = (page, currentTab) => {
   const { type } = page;
 
   switch (type) {
     case 'single':
-      return page.images || defaultImages;
+      return page?.images || defaultImages;
 
     case 'tabbed':
     case 'map':
-      return currentTab.images || defaultImages;
+      return currentTab?.images || defaultImages;
 
     default:
       return defaultImages;
@@ -91,6 +102,31 @@ export const getPageImages = (page, currentTab) => {
 export const getImages = createSelector(
   [getPageFromRouterMatch, getCurrentTab],
   getPageImages,
+);
+
+// get page/tab content
+//
+const defaultContent = '';
+
+const getPageTabContent = (page, currentTab) => {
+  const { type } = page;
+
+  switch (type) {
+    case 'single':
+      return page?.content || defaultContent;
+
+    case 'tabbed':
+    case 'map':
+      return currentTab?.content || defaultContent;
+
+    default:
+      return defaultContent;
+  }
+};
+
+export const getTabContent = createSelector(
+  [getPageFromRouterMatch, getCurrentTab],
+  getPageTabContent,
 );
 
 // isAnimating selectors

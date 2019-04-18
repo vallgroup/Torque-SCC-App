@@ -88,6 +88,8 @@ Slideshow.propTypes = {
   ]),
   interval: PropTypes.number,
   timeout: PropTypes.number,
+  primary: PropTypes.string,
+  secondary: PropTypes.string,
 };
 
 export default memo(Slideshow);

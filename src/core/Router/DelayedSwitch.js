@@ -23,7 +23,7 @@ const DelayedSwitch = ({
     [location.pathname], // eslint-disable-line
     // Note:
     // technically here we're lying to the useMemo dependencies,
-    // but it's a special case where do actually want to block updates
+    // but it's a special case where we do actually want to block updates
     // unless the pathname itself has changed.
     //
     // This is so if you click to navigate to the same page youre already on,

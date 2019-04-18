@@ -5,7 +5,9 @@ import styled from 'styled-components';
 // sideLength         (str)
 // thickness          (str)
 // color              (str)
-// orientation        (left|right) def: right
+// orientation        (left|right) default: right
+//
+// creates a triangle like: > or <
 export default styled.div`
   border: none;
   border-right: ${({ thickness }) => `${thickness || '10px'} solid`};

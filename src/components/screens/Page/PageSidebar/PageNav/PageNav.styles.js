@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-export const PageTabsRoot = styled.div`
+export const PageNavRoot = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
 `;
 
-export const PageTab = styled(Link)`
+export const PageNavTab = styled(Link)`
   flex: 0 0 20%;
 
   display: flex;

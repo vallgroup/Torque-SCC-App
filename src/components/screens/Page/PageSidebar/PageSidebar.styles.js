@@ -5,7 +5,7 @@ export const PageSidebarRoot = styled.div`
   height: 100%;
   width: 100%;
 
-  .page_tabs_wrapper {
+  .page_nav_wrapper {
     flex: 0 0 12%;
   }
 

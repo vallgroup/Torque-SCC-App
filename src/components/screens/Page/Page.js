@@ -11,9 +11,6 @@ import PageImages from './PageImages';
 import PageSidebar from './PageSidebar';
 import { PageRoot, PageMainWrapper, PageSidebarWrapper } from './Page.styles';
 
-// see @see https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
-// for details about including props in make state, while keeping properly memoized selectors
-//
 const mapState = (state, props) => ({
   page: pageSelectors.getPageFromRouterMatch(state, props),
 });
@@ -23,7 +20,7 @@ const mapActions = {
 };
 
 const Page = ({ page, getPage }) => {
-  const { ID: id, type } = page;
+  const { ID: id, type, map_settings: mapSettings } = page;
 
   // if we dont have page.type yet, it means we've only run the preliminary page request
   // so now we send the actual request, getting all the page content
@@ -32,12 +29,11 @@ const Page = ({ page, getPage }) => {
   }, !type);
 
   if (!page) return null;
-
   return (
     <PageRoot>
       <RouteEnterExit transitionIn="fade" timeoutIn={0} transitionOut="to-left">
         <PageMainWrapper>
-          {type === 'map' && <Map />}
+          {type === 'map' && <Map settings={mapSettings} />}
           <PageImages />
         </PageMainWrapper>
       </RouteEnterExit>
@@ -52,7 +48,7 @@ const Page = ({ page, getPage }) => {
 };
 
 Page.propTypes = {
-  page: PropTypes.object.isRequired, // from connect
+  page: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired, // from connect
   getPage: PropTypes.func.isRequired, // from connect
 };
 
