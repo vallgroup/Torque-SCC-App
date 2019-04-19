@@ -31,14 +31,14 @@ const Page = ({ page, getPage }) => {
   if (!page) return null;
   return (
     <PageRoot>
-      <RouteEnterExit transitionIn="fade" timeoutIn={0} transitionOut="to-left">
+      <RouteEnterExit transition="fade" timeoutIn={0}>
         <PageMainWrapper>
           {type === 'map' && <Map />}
           <PageImages />
         </PageMainWrapper>
       </RouteEnterExit>
 
-      <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
+      <RouteEnterExit transition="fade">
         <PageSidebarWrapper>
           <PageSidebar />
         </PageSidebarWrapper>
