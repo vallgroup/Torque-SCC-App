@@ -18,6 +18,8 @@ export const BodyGlobal = createGlobalStyle`
   body {
     ${BodyStyle}
 
+    background: ${({ theme }) => theme.gradients.vertical(theme.colors.primary, theme.colors.secondary)};
+
     ul {
       margin-top: 1%;
       margin-bottom: 1%;
