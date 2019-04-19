@@ -7,6 +7,7 @@ import { pageSelectors } from 'store/pages';
 import { updatePois as updatePoisAction } from 'store/actions';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import Geocode from './helpers/Geocode';
+import DistanceMatrix from './helpers/DistanceMatrix';
 
 const mapState = (state, props) => ({
   tabIndex: pageSelectors.getCurrentTabIndex(state, props),
@@ -230,12 +231,24 @@ export class TorqueMap extends React.Component {
   };
 
   findPoi = async poi => {
-    if (poi.address && !(poi.longitude || poi.latitude)) {
-      // if user didnt pass long an lat, we have to find them ourselves
-      //
+    const {
+      mapCenter: { lng: longitude, lat: latitude },
+    } = this.state;
+
+    if (!poi.address && !(poi.longitude && poi.latitude)) {
+      console.warn(`Point of interest ${poi.name} has neither address nor coords`);
+      return poi;
+    }
+
+    if (!(poi.longitude && poi.latitude)) {
       const coords = await this.geocode(poi.address);
       poi.longitude = coords.lng;
       poi.latitude = coords.lat;
+    }
+
+    if (!(poi.distance && poi.duration)) {
+      const distanceObj = await this.getDistance({ longitude, latitude }, poi);
+      poi = { ...poi, ...distanceObj };
     }
 
     return poi;
@@ -245,6 +258,12 @@ export class TorqueMap extends React.Component {
     const geoClient = new Geocode();
     const coordinates = await geoClient.geocode({ address });
     return coordinates;
+  };
+
+  getDistance = async (origin, destination) => {
+    const distanceMatrixService = new DistanceMatrix();
+    const distance = await distanceMatrixService.getDistance({ origin, destination });
+    return distance;
   };
 }
 
