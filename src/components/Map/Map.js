@@ -51,6 +51,8 @@ export class TorqueMap extends React.Component {
       !Object.keys(prevMapCenter || {}).length && Object.keys(mapCenter || {}).length;
 
     if (tabIndex !== prevTabIndex || gotFirstMapCenter) {
+      this.setState({ showingInfoWindow: false });
+
       if (this.map.current) {
         this.findPois();
       }
