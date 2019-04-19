@@ -4,16 +4,16 @@ export const MapContainer = styled.div`
   width: 100%;
   height: 100%;
 
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.lightBlue};
 
   h3 {
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.lightBlue};
+    padding-bottom: 6px;
+    text-decoration: none;
   }
 `;
 
 export const InfoWindowRoot = styled.div`
-  font-size: 0.5vw;
-
   h3 {
     font-size: 1vw;
   }
@@ -21,5 +21,9 @@ export const InfoWindowRoot = styled.div`
   .info_container {
     display: flex;
     justify-content: space-between;
+
+    min-width: 7vw;
+
+    font-size: 0.8vw;
   }
 `;

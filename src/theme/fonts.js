@@ -1,3 +1,3 @@
 export default {
-  primary: "'ArquitectaStd', 'sanf-serif'",
+  primary: "'ArquitectaStd', 'sans-serif'",
 };
