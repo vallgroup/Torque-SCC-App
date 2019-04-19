@@ -20,6 +20,7 @@ const PageImages = ({ images, colors }) => {
 
   const slideshowImages = useMemo(() => images.map(image => image.image), [images]);
 
+  if (!images?.length) return null;
   return (
     <Root>
       {showSlideshow ? (

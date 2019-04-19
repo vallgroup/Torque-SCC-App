@@ -8,6 +8,7 @@ import { updatePois as updatePoisAction } from 'store/actions';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import Geocode from './helpers/Geocode';
 import DistanceMatrix from './helpers/DistanceMatrix';
+import { MapContainer, InfoWindowRoot } from './Map.styles';
 
 const mapState = (state, props) => ({
   tabIndex: pageSelectors.getCurrentTabIndex(state, props),
@@ -134,46 +135,17 @@ export class TorqueMap extends React.Component {
     ));
   }
 
-  getInfoWindowForMarker = marker => {
-    const { name, distance } = marker;
+  getInfoWindowForMarker = poi => {
+    const { name, distance, duration } = poi;
 
     const info = {
       name,
-      distance,
+      distance: distance?.text || '',
+      duration: duration?.text || '',
     };
 
     return info;
   };
-
-  renderDynamicInfowindow() {
-    const {
-      settings: { center_marker_icon: centerMarker },
-    } = this.props;
-    const { selectedPlace } = this.state;
-
-    if (selectedPlace?.infowindow) {
-      const { infowindow } = selectedPlace;
-
-      return (
-        <div className="torque-map-infowindow">
-          <div>
-            <h3>{infowindow.name}</h3>
-          </div>
-        </div>
-      );
-    }
-
-    if (centerMarker?.icon?.infoWindow) {
-      return (
-        <div
-          className="torque-map-dynamic-infowindow"
-          dangerouslySetInnerHTML={{
-            __html: this.props.centerMarker.icon.infowindow,
-          }}
-        />
-      );
-    }
-  }
 
   render() {
     const {
@@ -184,7 +156,7 @@ export class TorqueMap extends React.Component {
     const { mapCenter, activeMarker, showingInfoWindow, selectedPlace } = this.state;
 
     return (
-      <div onClick={this.onMapClick} className="torque-map-container">
+      <MapContainer>
         <Map
           google={google}
           zoom={+zoom || 16}
@@ -196,12 +168,20 @@ export class TorqueMap extends React.Component {
           {pois && pois.length > 0 && this.renderMarkers()}
 
           <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
-            <div>
+            <InfoWindowRoot>
               <h3>{selectedPlace.name}</h3>
-            </div>
+              <div className="info_container">
+                {selectedPlace?.infowindow?.distance && (
+                  <div>{selectedPlace.infowindow.distance}</div>
+                )}
+                {selectedPlace?.infowindow?.duration && (
+                  <div>{selectedPlace.infowindow.duration}</div>
+                )}
+              </div>
+            </InfoWindowRoot>
           </InfoWindow>
         </Map>
-      </div>
+      </MapContainer>
     );
   }
 
