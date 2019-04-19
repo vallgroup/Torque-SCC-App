@@ -8,6 +8,7 @@ import LogoCorner from 'components/LogoCorner';
 import { H1 } from 'theme';
 import PageNav from './PageNav';
 import TabContent from './TabContent';
+import TabPois from './TabPois';
 import Tabs from './Tabs';
 import { PageSidebarRoot, ContentRoot } from './PageSidebar.styles';
 
@@ -27,6 +28,7 @@ const PageSidebar = ({ title, colors }) => (
         <H1>{title}</H1>
         <Tabs />
         <TabContent />
+        <TabPois />
       </ContentRoot>
     </div>
 

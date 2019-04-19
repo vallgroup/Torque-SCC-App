@@ -144,7 +144,7 @@ export const getMapSettings = createSelector(
 );
 
 const getTabPois = currentTab => {
-  if (currentTab.type !== 'pois') return [];
+  if (!currentTab || currentTab.type !== 'pois') return [];
 
   const { default_poi_icon: defaultIcon } = currentTab;
 
