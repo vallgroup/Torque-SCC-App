@@ -10,7 +10,12 @@ import {
 } from './Slideshow.styles';
 
 const Slideshow = ({
-  images, interval = 0, timeout, primary, secondary,
+  images,
+  interval = 0,
+  timeout,
+  primary,
+  secondary,
+  transition: transitionProp,
 }) => {
   const [slide, setSlide] = useState(0);
 
@@ -38,8 +43,11 @@ const Slideshow = ({
   // keep track of previous slide so we know which way we went
   const prevSlide = usePrevious(slide);
 
-  // different trasition depending on if we're going right or left
-  const transition = (prevSlide || 0) > slide ? 'to-right' : 'to-left';
+  let transition = transitionProp;
+  if (transitionProp !== 'fade') {
+    // different trasition depending on if we're going right or left
+    transition = (prevSlide || 0) > slide ? 'to-right' : 'to-left';
+  }
 
   return (
     <SlideshowRoot>
@@ -90,6 +98,11 @@ Slideshow.propTypes = {
   timeout: PropTypes.number,
   primary: PropTypes.string,
   secondary: PropTypes.string,
+  transition: PropTypes.oneOf(['slide', 'fade']),
+};
+
+Slideshow.defaultProps = {
+  transition: 'slide',
 };
 
 export default memo(Slideshow);
