@@ -61,7 +61,7 @@ const ScreenSaver = ({
 
   const handleScreenSaverClick = () => setMounted(false);
 
-  const handleScreenSaverExit = () => history.push('/');
+  const handleEnter = () => setTimeout(() => history.push('/'), 1000);
 
   return (
     <TransitionEnterExit
@@ -71,7 +71,7 @@ const ScreenSaver = ({
       timeout={1000}
       timeoutOut={500}
       unmountOnExit
-      onExiting={handleScreenSaverExit}
+      onEnter={handleEnter}
       onClick={handleScreenSaverClick}
     >
       <ScreenSaverRoot>
