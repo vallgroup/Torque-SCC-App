@@ -29,6 +29,7 @@ export default class DistanceMatrix {
       origins: [new google.maps.LatLng(origin.latitude, origin.longitude)],
       destinations: [new google.maps.LatLng(destination.latitude, destination.longitude)],
       travelMode: 'DRIVING',
+      unitSystem: google.maps.UnitSystem.IMPERIAL,
       ...slicedParams,
     };
     // build and return our Premise
