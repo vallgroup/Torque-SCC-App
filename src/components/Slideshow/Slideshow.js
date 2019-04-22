@@ -11,13 +11,14 @@ import {
 
 const Slideshow = ({
   images,
+  initSlide = 0,
   interval = 0,
   timeout,
   primary,
   secondary,
   transition: transitionProp,
 }) => {
-  const [slide, setSlide] = useState(0);
+  const [slide, setSlide] = useState(initSlide);
 
   // useCallback here ensures that we arent creating a new function on each render
   // (which would break the throttling)
@@ -94,6 +95,7 @@ Slideshow.propTypes = {
     ),
     PropTypes.string.isRequired,
   ]),
+  initSlide: PropTypes.number,
   interval: PropTypes.number,
   timeout: PropTypes.number,
   primary: PropTypes.string,

@@ -15,7 +15,12 @@ const mapState = (state, props) => ({
 
 const PageImages = ({ images, colors }) => {
   const [showSlideshow, setShowSlideshow] = useState(false);
-  const switchToSlideshow = () => setShowSlideshow(true);
+  const [initSlide, setInitSlide] = useState(0);
+
+  const switchToSlideshow = (e, index = 0) => {
+    setInitSlide(index);
+    setShowSlideshow(true);
+  };
   const switchToGrid = () => setShowSlideshow(false);
 
   const slideshowImages = useMemo(() => images.map(image => image.image), [images]);
@@ -26,13 +31,14 @@ const PageImages = ({ images, colors }) => {
       {showSlideshow ? (
         <Slideshow
           images={slideshowImages}
+          initSlide={initSlide}
           interval={0}
           timeout={500}
           primary={colors.primary}
           secondary={colors.secondary}
         />
       ) : (
-        <ImagesGrid images={images} />
+        <ImagesGrid images={images} onImageClick={switchToSlideshow} />
       )}
 
       {images.length > 1 && (
