@@ -9,4 +9,12 @@ export const ScreenSaverRoot = styled.div`
   height: 100%;
 
   background-color: ${({ theme }) => theme.colors.black};
+
+  .screen_saver_logo {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    width: 20%;
+    height: auto;
+  }
 `;

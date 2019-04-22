@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import compose from 'helpers/compose';
 import { screenSaverSelectors } from 'store/screenSaver';
+import { logoSelectors } from 'store/logos';
 import { getScreenSaver as getScreenSaverAction } from 'store/actions';
 import { useTimeout, useEnsureFetch } from 'hooks';
 import Slideshow from 'components/Slideshow';
+import LogoCorner from 'components/LogoCorner';
 import { TransitionEnterExit } from 'theme';
 import { ScreenSaverRoot } from './ScreenSaver.styles';
 
@@ -15,6 +17,7 @@ const MINUTES_TO_MOUNT = 20;
 const NON_IDLE_EVENTS = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
 
 const mapState = state => ({
+  glenstarText: logoSelectors.getGlenstarText(state),
   images: screenSaverSelectors.getScreenSaverImages(state),
 });
 
@@ -22,7 +25,9 @@ const mapActions = {
   getScreenSaver: getScreenSaverAction,
 };
 
-const ScreenSaver = ({ images, history, getScreenSaver }) => {
+const ScreenSaver = ({
+  images, history, getScreenSaver, glenstarText,
+}) => {
   const [mounted, setMounted] = useState(false);
 
   useEnsureFetch(getScreenSaver, !images.length);
@@ -70,7 +75,10 @@ const ScreenSaver = ({ images, history, getScreenSaver }) => {
       onClick={handleScreenSaverClick}
     >
       <ScreenSaverRoot>
-        <Slideshow images={images} interval={10000} timeout={500} />
+        <Slideshow images={images} interval={10000} timeout={500} transition="fade" />
+
+        {glenstarText && <img src={glenstarText} className="screen_saver_logo" alt="logo" />}
+        <LogoCorner />
       </ScreenSaverRoot>
     </TransitionEnterExit>
   );
@@ -80,6 +88,7 @@ ScreenSaver.propTypes = {
   history: PropTypes.object.isRequired, // from withRouter HOC
   images: PropTypes.array, // from connect
   getScreenSaver: PropTypes.func.isRequired, // from connect
+  glenstarText: PropTypes.string, // from connect
 };
 
 export default compose(
