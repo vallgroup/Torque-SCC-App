@@ -5555,6 +5555,13 @@ react-router@5.0.0:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
+react-swipeable@^5.2.0-alpha.2:
+  version "5.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-5.2.0-alpha.2.tgz#51ec20897f824da3a8dee05e54ce7dba728251cb"
+  integrity sha512-+dzKtbfTjws0rlRKw8Jyz1O+IvZ5n77dSyAhNQr00n8F/jvSP/Qxq7mODedoa0Q9jDO9qumAnHRt9LvBqJkprA==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-transition-group@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"

@@ -2,6 +2,7 @@ import React, {
   Fragment, memo, useCallback, useState, useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
+import { useSwipeable } from 'react-swipeable';
 import { useInterval, usePrevious } from 'hooks';
 import { TransitionEnterExit } from 'theme';
 import throttle from 'lodash.throttle';
@@ -34,6 +35,12 @@ const Slideshow = ({
   // maybe set up an interval to auto play the slider
   useInterval(incrementSlide, interval);
 
+  // set up swipeability
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: incrementSlide,
+    onSwipedRight: decrementSlide,
+  });
+
   // calculate slide modulo images length
   // https://stackoverflow.com/a/47354356/7583056
   const moduloSlide = useMemo(() => ((slide % images.length) + images.length) % images.length, [
@@ -51,7 +58,7 @@ const Slideshow = ({
   }
 
   return (
-    <SlideshowRoot>
+    <SlideshowRoot {...swipeHandlers}>
       {images.map((image, index) => {
         const { caption } = image;
         const src = image.url || image;

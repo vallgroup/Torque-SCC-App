@@ -29,10 +29,9 @@ const Home = ({ pages }) => {
         {pages.map(({
           ID, post_title: title, post_name: slug, icons, colors,
         }) => (
-          <RouteEnterExit transitionIn="to-left" transitionOut="fade">
+          <RouteEnterExit key={ID} transitionIn="to-left" transitionOut="fade">
             <BlockSizing>
               <Block
-                key={ID}
                 title={title}
                 slug={slug}
                 iconFilled={icons.icon_filled}
