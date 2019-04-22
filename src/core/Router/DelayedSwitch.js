@@ -4,16 +4,29 @@ import compose from 'helpers/compose';
 import { Switch } from 'react-router-dom';
 import { withTheme } from 'styled-components';
 import { useDelayNextChildren } from 'hooks';
-import { startPageAnimation, finishPageAnimation } from 'store/actions';
+import {
+  startPageAnimation,
+  finishPageAnimation,
+  setLocation as setLocationAction,
+} from 'store/actions';
 
 const mapActions = {
   startAnimation: startPageAnimation,
   finishAnimation: finishPageAnimation,
+  setLocation: setLocationAction,
 };
 
 const DelayedSwitch = ({
-  theme, location, children, startAnimation, finishAnimation,
+  theme,
+  location,
+  children,
+  startAnimation,
+  finishAnimation,
+  setLocation,
 }) => {
+  // also keep track of the prev location, and location WITHOUT they delay
+  setLocation(location);
+
   const render = useMemo(
     () => (
       <Switch location={location} key={location.key}>

@@ -3,6 +3,7 @@ import {
   GET_INIT_SUCCESS,
   GET_PAGE_SUCCESS,
   UPDATE_POIS,
+  SET_LOCATION,
   PAGE_ANIMATION_START,
   PAGE_ANIMATION_FINISH,
   SET_CURRENT_TAB,
@@ -69,6 +70,22 @@ const currentTab = (state = 0, action) => {
   }
 };
 
+const location = (state = { prevLocation: null, location: null }, action) => {
+  const { payload, type } = action;
+
+  switch (type) {
+    case SET_LOCATION:
+      return {
+        prevLocation:
+          state?.location?.pathname !== payload?.pathname ? state.location : state.prevLocation, // only update if the new old pathname is different
+        location: payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
 const isAnimating = (state = false, action) => {
   const { type } = action;
 
@@ -87,5 +104,6 @@ const isAnimating = (state = false, action) => {
 export default combineReducers({
   pages,
   currentTab,
+  location,
   isAnimating,
 });

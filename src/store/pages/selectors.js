@@ -191,3 +191,5 @@ export const getDistanceType = createSelector(
 // isAnimating selectors
 
 export const getIsAnimating = state => state.pages.isAnimating;
+
+export const getLocation = state => state.pages.location;

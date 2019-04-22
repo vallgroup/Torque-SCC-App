@@ -11,6 +11,7 @@ import {
   GET_SCREEN_SAVER_SUCCESS,
   GET_SCREEN_SAVER_FAILURE,
   SET_CURRENT_TAB,
+  SET_LOCATION,
   PAGE_ANIMATION_START,
   PAGE_ANIMATION_FINISH,
   UPDATE_POIS,
@@ -67,6 +68,11 @@ export const startPageAnimation = () => ({
 
 export const finishPageAnimation = () => ({
   type: PAGE_ANIMATION_FINISH,
+});
+
+export const setLocation = location => ({
+  payload: location,
+  type: SET_LOCATION,
 });
 
 export const updatePois = ({ pageSlug, pois }) => (dispatch, getState) => {
