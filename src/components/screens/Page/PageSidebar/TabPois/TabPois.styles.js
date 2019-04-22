@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-export const ContentRoot = styled.div``;
+export const ContentRoot = styled.div`
+  max-height: 60%;
+  overflow-y: auto;
+`;
 
 export const PoiWrapper = styled.div`
   display: flex;

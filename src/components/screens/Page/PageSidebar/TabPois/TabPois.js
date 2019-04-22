@@ -8,17 +8,18 @@ import { ContentRoot, PoiWrapper } from './TabPois.styles';
 
 const mapState = (state, props) => ({
   pois: pageSelectors.getPois(state, props),
+  distanceType: pageSelectors.getDistanceType(state, props),
 });
 
-const TabPois = ({ pois }) =>
+const TabPois = ({ pois, distanceType }) =>
   pois?.length ? (
     <ContentRoot>
       {pois.map(poi => (
         <PoiWrapper key={poi.name}>
           <div className="poi_name">{poi.name}</div>
           <div className="poi_distance">
-            {(poi?.distance_type === 'distance' && poi?.distance?.text) ||
-              (poi?.distance_type === 'duration' && poi?.duration?.text)}
+            {(distanceType === 'distance' && poi?.distance?.text) ||
+              (distanceType === 'duration' && poi?.duration?.text)}
           </div>
         </PoiWrapper>
       ))}
@@ -27,6 +28,7 @@ const TabPois = ({ pois }) =>
 
 TabPois.propTypes = {
   pois: PropTypes.array,
+  distanceType: PropTypes.oneOf(['distance', 'duration']).isRequired,
 };
 
 export default compose(

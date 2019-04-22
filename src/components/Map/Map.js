@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import compose from 'helpers/compose';
 import { withRouter } from 'react-router-dom';
+import { withTheme } from 'styled-components';
 import { pageSelectors } from 'store/pages';
 import { updatePois as updatePoisAction } from 'store/actions';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import Geocode from './helpers/Geocode';
 import DistanceMatrix from './helpers/DistanceMatrix';
+import NearbySearch from './helpers/NearbySearch';
 import { MapContainer, InfoWindowRoot } from './Map.styles';
 
 const mapState = (state, props) => ({
   tabIndex: pageSelectors.getCurrentTabIndex(state, props),
   pois: pageSelectors.getPois(state, props),
+  keyword: pageSelectors.getKeyword(state, props),
+  poiIcon: pageSelectors.getPoiIcon(state, props),
   settings: pageSelectors.getMapSettings(state, props),
 });
 
@@ -55,6 +59,7 @@ export class TorqueMap extends React.Component {
 
       if (this.map.current) {
         this.findPois();
+        this.nearbySearch();
       }
     }
   }
@@ -200,12 +205,23 @@ export class TorqueMap extends React.Component {
 
   findPois = async () => {
     const {
-      pois,
+      pois: currentPois,
       updatePois,
       match: {
         params: { pageSlug },
       },
+      theme: {
+        vars: { MAX_POIS_PER_TAB },
+      },
     } = this.props;
+
+    let keywordPois = [];
+    if (currentPois.length < MAX_POIS_PER_TAB) {
+      // search only if we need more pois
+      keywordPois = await this.nearbySearch();
+    }
+
+    const pois = [...currentPois, ...keywordPois].slice(0, MAX_POIS_PER_TAB); // combine, and set upper limit to number of pois
 
     const newPois = await Promise.all(pois.map(this.findPoi));
 
@@ -247,11 +263,30 @@ export class TorqueMap extends React.Component {
     const distance = await distanceMatrixService.getDistance({ origin, destination });
     return distance;
   };
+
+  async nearbySearch() {
+    const { pois, keyword, poiIcon } = this.props;
+    const { mapCenter } = this.state;
+
+    if (!(this.map.current && this.map.current.map && keyword)) return [];
+
+    if (!this.searchClient) this.searchClient = new NearbySearch(this.map.current.map, poiIcon);
+
+    const results = await this.searchClient.search({
+      keyword: keyword,
+      location: mapCenter,
+      radius: 1000,
+    });
+
+    return results;
+  }
 }
 
 TorqueMap.propTypes = {
   tabIndex: PropTypes.number.isRequired, // from connect
   pois: PropTypes.array.isRequired, // from connect
+  keyword: PropTypes.string.isRequired, // from connect
+  poiIcon: PropTypes.string.isRequired, // from connect
   // from connect
   settings: PropTypes.shape({
     api_key: PropTypes.string.isRequired,
@@ -261,6 +296,7 @@ TorqueMap.propTypes = {
     style: PropTypes.string,
   }),
   updatePois: PropTypes.func.isRequired, // from connect
+  theme: PropTypes.object.isRequired, // from withTheme
 };
 
 export default compose(
@@ -269,6 +305,7 @@ export default compose(
     mapState,
     mapActions,
   ),
+  withTheme,
   GoogleApiWrapper(props => ({
     apiKey: props.settings.api_key,
   })),

@@ -12,7 +12,7 @@ import LogoCorner from 'components/LogoCorner';
 import { TransitionEnterExit } from 'theme';
 import { ScreenSaverRoot } from './ScreenSaver.styles';
 
-const MINUTES_TO_MOUNT = 20;
+const MINUTES_TO_MOUNT = 0.5;
 
 const NON_IDLE_EVENTS = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
 

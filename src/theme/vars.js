@@ -1,4 +1,5 @@
 export default {
   SWITCH_DELAY: 500,
   DEFAULT_ANIMATION_TIMEOUT: 500,
+  MAX_POIS_PER_TAB: 20,
 };

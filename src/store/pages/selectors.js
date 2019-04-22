@@ -144,12 +144,12 @@ export const getMapSettings = createSelector(
 );
 
 const getTabPois = currentTab => {
-  if (!currentTab || currentTab.type !== 'pois') return [];
+  if (!currentTab || currentTab.type !== 'pois' || !currentTab.pois) return [];
 
   const { default_poi_icon: defaultIcon } = currentTab;
 
   return currentTab.pois.map(poi => {
-    if (!poi.icon) poi.icon = defaultIcon;
+    if (!poi.icon) poi.icon = defaultIcon; // merge in default icon here so we dont have to worry about it in the components
     return poi;
   });
 };
@@ -157,6 +157,35 @@ const getTabPois = currentTab => {
 export const getPois = createSelector(
   [getCurrentTab],
   getTabPois,
+);
+
+const getTabKeyword = currentTab => {
+  if (!currentTab || currentTab.type !== 'pois' || !currentTab.keyword) return '';
+
+  return currentTab.keyword;
+};
+
+export const getKeyword = createSelector(
+  [getCurrentTab],
+  getTabKeyword,
+);
+
+const getTabPoiIcon = currentTab => {
+  return currentTab?.default_poi_icon;
+};
+
+export const getPoiIcon = createSelector(
+  [getCurrentTab],
+  getTabPoiIcon,
+);
+
+const getTabDistanceType = currentTab => {
+  return currentTab?.distance_type;
+};
+
+export const getDistanceType = createSelector(
+  [getCurrentTab],
+  getTabDistanceType,
 );
 
 // isAnimating selectors
