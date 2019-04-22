@@ -21,10 +21,8 @@ export const BlockRoot = styled(Link)`
     z-index: 2;
 
     margin-bottom: 10%;
-    width: 30%;
-    height: auto;
-    max-width: 350px;
-    max-height: 350px;
+    width: 9vw;
+    height: 9vw;
   }
 
   .block_heading {
