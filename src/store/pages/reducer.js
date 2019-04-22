@@ -30,10 +30,17 @@ const pages = (state = [], action) => {
       // get new tabs array with relevant tabs object updated with new pois
       const pageIndex = state.findIndex(page => page.ID === pageId);
       const newTabs = state[pageIndex].tabs.slice(0);
+
       newTabs[tabIndex].pois = mergeArraysOfObjects(
         newTabs[tabIndex].pois || [],
         pois || [],
         (poi1, poi2) => poi1.name === poi2.name,
+      );
+
+      const { distance_type: distanceType } = newTabs[tabIndex];
+      newTabs[tabIndex].pois.sort(
+        (poi1, poi2) =>
+          (poi1?.[distanceType]?.value || 10000) - (poi2?.[distanceType]?.value || 10000),
       );
 
       // create an updates object that we can pass to our 'mergeArraysOfObjects' function

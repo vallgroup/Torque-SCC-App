@@ -59,7 +59,6 @@ export class TorqueMap extends React.Component {
 
       if (this.map.current) {
         this.findPois();
-        this.nearbySearch();
       }
     }
   }
