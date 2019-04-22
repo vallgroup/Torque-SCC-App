@@ -30,7 +30,7 @@ export const BlockSizing = styled.div`
     height: 100%;
 
     &[class*='-to-left-enter'] {
-      left: 100%;
+      left: 120%;
     }
 
     &[class*='-to-left-enter-active'] {
@@ -39,6 +39,18 @@ export const BlockSizing = styled.div`
 
     &[class*='-to-left-enter-done'] {
       left: 0;
+    }
+
+    &[class*='-to-right-exit'] {
+      left: 0;
+    }
+
+    &[class*='-to-right-exit-active'] {
+      left: 120%;
+    }
+
+    &[class*='-to-right-exit-done'] {
+      left: 120%;
     }
   }
 
@@ -48,7 +60,7 @@ export const BlockSizing = styled.div`
     left: 33.333%;
 
     &[class*='-to-left-enter'] {
-      left: 100%;
+      left: 120%;
     }
 
     &[class*='-to-left-enter-active'] {
@@ -57,6 +69,18 @@ export const BlockSizing = styled.div`
 
     &[class*='-to-left-enter-done'] {
       left: 33.333%;
+    }
+
+    &[class*='-to-right-exit'] {
+      left: 33.333%;
+    }
+
+    &[class*='-to-right-exit-active'] {
+      left: 120%;
+    }
+
+    &[class*='-to-right-exit-done'] {
+      left: 120%;
     }
   }
 
@@ -70,7 +94,7 @@ export const BlockSizing = styled.div`
     left: 66.666%;
 
     &[class*='-to-left-enter'] {
-      left: 100%;
+      left: 120%;
     }
 
     &[class*='-to-left-enter-active'] {
@@ -79,6 +103,18 @@ export const BlockSizing = styled.div`
 
     &[class*='-to-left-enter-done'] {
       left: 66.666%;
+    }
+
+    &[class*='-to-right-exit'] {
+      left: 66.666%;
+    }
+
+    &[class*='-to-right-exit-active'] {
+      left: 120%;
+    }
+
+    &[class*='-to-right-exit-done'] {
+      left: 120%;
     }
   }
 
@@ -104,5 +140,17 @@ export const SidebarSizing = styled.div`
 
   &[class*='-to-left-enter-done'] {
     left: 87.5%;
+  }
+
+  &[class*='-to-right-exit'] {
+    left: 87.5%;
+  }
+
+  &[class*='-to-right-exit-active'] {
+    left: 100%;
+  }
+
+  &[class*='-to-right-exit-done'] {
+    left: 100%;
   }
 `;

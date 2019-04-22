@@ -38,7 +38,7 @@ const Page = ({ page, getPage }) => {
         </PageMainWrapper>
       </RouteEnterExit>
 
-      <RouteEnterExit transition="fade">
+      <RouteEnterExit transitionIn="to-left" transitionOut="to-right" homeTransitionOnly>
         <PageSidebarWrapper>
           <PageSidebar />
         </PageSidebarWrapper>

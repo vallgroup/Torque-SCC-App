@@ -23,6 +23,10 @@ export const PageSidebarWrapper = styled.div`
   width: 33.333%;
   height: 100%;
 
+  &[class*='-to-left-enter'] {
+    left: 100%;
+  }
+
   &[class*='-to-left-enter-active'] {
     left: 66.666%;
   }

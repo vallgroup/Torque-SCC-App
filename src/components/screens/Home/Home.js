@@ -29,7 +29,7 @@ const Home = ({ pages }) => {
         {pages.map(({
           ID, post_title: title, post_name: slug, icons, colors,
         }) => (
-          <RouteEnterExit key={ID} transitionIn="to-left" transitionOut="fade">
+          <RouteEnterExit key={ID} transitionIn="to-left" transitionOut="to-right">
             <BlockSizing>
               <Block
                 title={title}
@@ -44,7 +44,7 @@ const Home = ({ pages }) => {
         ))}
       </Blocks>
 
-      <RouteEnterExit transitionIn="to-left" transitionOut="fade">
+      <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
         <SidebarSizing>
           <HomeSidebar />
         </SidebarSizing>
