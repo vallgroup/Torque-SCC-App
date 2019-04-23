@@ -17,6 +17,7 @@ const createQueryString = (queryObj) => {
  * Attach the endpoint and query to our base url
  */
 export default (endpoint, queryObj) => {
+  const { protocol, hostname } = window.location;
   const queryStr = createQueryString(queryObj);
 
   const isDev = process.env.NODE_ENV === 'development';
@@ -24,7 +25,16 @@ export default (endpoint, queryObj) => {
     return `http://localhost:8000/index.php/wp-json/scc/v1/${endpoint}${queryStr}`;
   }
 
-  // try adding api to our current hostname, should do the trick
-  const { protocol, hostname } = window.location;
+  const isStaging = hostname.includes('torquelaunchdev');
+  if (isStaging) {
+    return `${protocol}//api.${hostname}/index.php/wp-json/scc/v1/${endpoint}${queryStr}`;
+  }
+
+  const isProduction = hostname.includes('schaumburgcorporatecenter');
+  if (isProduction) {
+    return `${protocol}//tour-data.schaumburgcorporatecenter.com/index.php/wp-json/scc/v1/${endpoint}${queryStr}`;
+  }
+
+  // try adding api to our current hostname as a fallback
   return `${protocol}//api.${hostname}/index.php/wp-json/scc/v1/${endpoint}${queryStr}`;
 };
