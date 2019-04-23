@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import compose from 'helpers/compose';
 import { withRouter } from 'react-router-dom';
 import { withTheme } from 'styled-components';
+import debounce from 'debounce';
 import { pageSelectors } from 'store/pages';
 import { updatePois as updatePoisAction } from 'store/actions';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
@@ -35,10 +36,13 @@ export class TorqueMap extends React.Component {
       selectedPlace: {},
       activeMarker: {},
       showingInfoWindow: false,
+      overQueryLimit: false,
     };
 
     this.map = createRef();
     this.searchClient = null;
+
+    this.findPois = debounce(this.findPois, 2100);
   }
 
   componentWillMount() {
@@ -47,19 +51,24 @@ export class TorqueMap extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { tabIndex } = this.props;
-    const { mapCenter } = this.state;
+    const { mapCenter, overQueryLimit } = this.state;
     const { tabIndex: prevTabIndex } = prevProps;
     const { mapCenter: prevMapCenter } = prevState;
 
     const gotFirstMapCenter =
       !Object.keys(prevMapCenter || {}).length && Object.keys(mapCenter || {}).length;
+    const tabChanged = tabIndex !== prevTabIndex;
 
-    if (tabIndex !== prevTabIndex || gotFirstMapCenter) {
+    if (tabChanged || gotFirstMapCenter) {
       this.setState({ showingInfoWindow: false });
 
       if (this.map.current) {
         this.findPois();
       }
+    }
+
+    if (overQueryLimit) {
+      this.findPois(); // function is debounced, so it'll only run every 2 seconds
     }
   }
 
@@ -224,6 +233,9 @@ export class TorqueMap extends React.Component {
 
     const newPois = await Promise.all(pois.map(this.findPoi));
 
+    const wasGeocodeError = newPois.some(poi => poi.geocodeError);
+    this.setState({ overQueryLimit: wasGeocodeError });
+
     updatePois({ pageSlug, pois: newPois });
   };
 
@@ -238,14 +250,23 @@ export class TorqueMap extends React.Component {
     }
 
     if (!(poi.longitude && poi.latitude)) {
-      const coords = await this.geocode(poi.address);
-      poi.longitude = coords.lng;
-      poi.latitude = coords.lat;
+      try {
+        const coords = await this.geocode(poi.address);
+        poi.longitude = coords.lng;
+        poi.latitude = coords.lat;
+        poi.geocodeError = null;
+      } catch (err) {
+        if (err === 'OVER_QUERY_LIMIT') {
+          poi.geocodeError = true;
+        }
+      }
     }
 
-    if (!(poi.distance && poi.duration)) {
-      const distanceObj = await this.getDistance({ longitude, latitude }, poi);
-      poi = { ...poi, ...distanceObj };
+    if (!(poi.distance && poi.duration) && (poi.longitude && poi.latitude)) {
+      try {
+        const distanceObj = await this.getDistance({ longitude, latitude }, poi);
+        poi = { ...poi, ...distanceObj };
+      } catch (err) {}
     }
 
     return poi;

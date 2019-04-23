@@ -40,7 +40,11 @@ export default class DistanceMatrix {
   handleDistanceMatrixPromise(resolve, reject) {
     this.distanceMatrix.getDistanceMatrix(this.params, (results, status) => {
       try {
-        resolve(results.rows[0].elements[0]);
+        if (status === 'OK') {
+          return resolve(results.rows[0].elements[0]);
+        }
+
+        throw Error(`Distance Matrix failed with status: ${status}`);
       } catch (err) {
         reject({
           distance: 'Could not get distance',

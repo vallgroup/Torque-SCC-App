@@ -29,16 +29,21 @@ export default class Geocode {
   handleGeocodePromise(resolve, reject) {
     // do geocode
     this.geocoder.geocode(this.params, (results, status) => {
-      // successful, resove the promise
-      if (status === 'OK') {
-        // pass the lat and lng coordinates
-        resolve({
-          lat: results[0].geometry.location.lat(),
-          lng: results[0].geometry.location.lng(),
-        });
+      try {
+        // successful, resove the promise
+        if (status === 'OK') {
+          // pass the lat and lng coordinates
+          return resolve({
+            lat: results[0].geometry.location.lat(),
+            lng: results[0].geometry.location.lng(),
+          });
+        }
+
+        throw Error(`Geocode failed with status: ${status}`);
+      } catch (err) {
+        console.warn(err);
+        reject(status);
       }
-      // else, reject it
-      reject(null);
     });
   }
 }
