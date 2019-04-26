@@ -36,6 +36,7 @@ export default class Geocode {
           return resolve({
             lat: results[0].geometry.location.lat(),
             lng: results[0].geometry.location.lng(),
+            address: results[0].formatted_address,
           });
         }
 

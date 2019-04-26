@@ -25,5 +25,9 @@ export const InfoWindowRoot = styled.div`
     min-width: 7vw;
 
     font-size: 0.8vw;
+
+    &.address {
+      margin-bottom: 3%;
+    }
   }
 `;

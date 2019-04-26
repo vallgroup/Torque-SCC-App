@@ -56,7 +56,8 @@ export class TorqueMap extends React.Component {
     const { mapCenter: prevMapCenter } = prevState;
 
     const gotFirstMapCenter =
-      !Object.keys(prevMapCenter || {}).length && Object.keys(mapCenter || {}).length;
+      !Object.keys(prevMapCenter || {}).length &&
+      Object.keys(mapCenter || {}).length;
     const tabChanged = tabIndex !== prevTabIndex;
 
     if (tabChanged || gotFirstMapCenter) {
@@ -100,7 +101,7 @@ export class TorqueMap extends React.Component {
 
   renderCenterMarker = () => {
     const {
-      settings: { center_marker_icon: centerMarker },
+      settings: { center_marker_icon: centerMarker, center },
       google,
     } = this.props;
     const { mapCenter } = this.state;
@@ -111,7 +112,7 @@ export class TorqueMap extends React.Component {
     return (
       <Marker
         onClick={this.onMarkerClick}
-        name={'SCC'}
+        name={'Schaumburg Corporate Center'}
         position={mapCenter}
         zIndex={google.maps.Marker.MAX_ZINDEX + 1}
         icon={
@@ -121,6 +122,9 @@ export class TorqueMap extends React.Component {
             scaledSize: new google.maps.Size(width, height),
           }
         }
+        infowindow={{
+          address: center,
+        }}
       />
     );
   };
@@ -131,7 +135,9 @@ export class TorqueMap extends React.Component {
     const width = 60;
     const height = 100;
 
-    const filteredPois = pois.filter(poi => !!poi && poi.longitude && poi.latitude);
+    const filteredPois = pois.filter(
+      poi => !!poi && poi.longitude && poi.latitude,
+    );
 
     return filteredPois.map((poi, index) => (
       <Marker
@@ -151,12 +157,13 @@ export class TorqueMap extends React.Component {
   }
 
   getInfoWindowForMarker = poi => {
-    const { name, distance, duration } = poi;
+    const { name, distance, duration, address } = poi;
 
     const info = {
       name,
       distance: distance?.text || '',
       duration: duration?.text || '',
+      address,
     };
 
     return info;
@@ -168,7 +175,12 @@ export class TorqueMap extends React.Component {
       settings: { center, zoom, style, center_marker_icon: centerMarker },
       pois,
     } = this.props;
-    const { mapCenter, activeMarker, showingInfoWindow, selectedPlace } = this.state;
+    const {
+      mapCenter,
+      activeMarker,
+      showingInfoWindow,
+      selectedPlace,
+    } = this.state;
 
     return (
       <MapContainer>
@@ -185,6 +197,11 @@ export class TorqueMap extends React.Component {
           <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
             <InfoWindowRoot>
               <h3>{selectedPlace.name}</h3>
+              {selectedPlace?.infowindow?.address && (
+                <div className="info_container address">
+                  {selectedPlace.infowindow.address}
+                </div>
+              )}
               <div className="info_container">
                 {selectedPlace?.infowindow?.distance && (
                   <div>{selectedPlace.infowindow.distance}</div>
@@ -245,15 +262,18 @@ export class TorqueMap extends React.Component {
     } = this.state;
 
     if (!poi.address && !(poi.longitude && poi.latitude)) {
-      console.warn(`Point of interest ${poi.name} has neither address nor coords`);
+      console.warn(
+        `Point of interest ${poi.name} has neither address nor coords`,
+      );
       return poi;
     }
 
     if (!(poi.longitude && poi.latitude)) {
       try {
-        const coords = await this.geocode(poi.address);
-        poi.longitude = coords.lng;
-        poi.latitude = coords.lat;
+        const result = await this.geocode(poi.address);
+        poi.longitude = result.lng;
+        poi.latitude = result.lat;
+        poi.address = result.address;
         poi.geocodeError = null;
       } catch (err) {
         if (err === 'OVER_QUERY_LIMIT') {
@@ -264,7 +284,10 @@ export class TorqueMap extends React.Component {
 
     if (!(poi.distance && poi.duration) && (poi.longitude && poi.latitude)) {
       try {
-        const distanceObj = await this.getDistance({ longitude, latitude }, poi);
+        const distanceObj = await this.getDistance(
+          { longitude, latitude },
+          poi,
+        );
         poi = { ...poi, ...distanceObj };
       } catch (err) {}
     }
@@ -280,7 +303,10 @@ export class TorqueMap extends React.Component {
 
   getDistance = async (origin, destination) => {
     const distanceMatrixService = new DistanceMatrix();
-    const distance = await distanceMatrixService.getDistance({ origin, destination });
+    const distance = await distanceMatrixService.getDistance({
+      origin,
+      destination,
+    });
     return distance;
   };
 
@@ -290,7 +316,8 @@ export class TorqueMap extends React.Component {
 
     if (!(this.map.current && this.map.current.map && keyword)) return [];
 
-    if (!this.searchClient) this.searchClient = new NearbySearch(this.map.current.map, poiIcon);
+    if (!this.searchClient)
+      this.searchClient = new NearbySearch(this.map.current.map, poiIcon);
 
     const results = await this.searchClient.search({
       keyword: keyword,

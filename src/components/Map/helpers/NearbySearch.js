@@ -23,23 +23,26 @@ export default class NearbySearch {
 
   handleSearchPromise(resolve, reject) {
     // do search
-    this.placesServices.nearbySearch(this.params, (results, status, pagination) => {
-      try {
-        // if 0 results
-        if (status === 'ZERO_RESULTS') {
-          return resolve([]);
-        }
-        // if succesful resolve promise
-        if (status === 'OK' && results.length > 0) {
-          return resolve(this.formatResults(results));
-        }
+    this.placesServices.nearbySearch(
+      this.params,
+      (results, status, pagination) => {
+        try {
+          // if 0 results
+          if (status === 'ZERO_RESULTS') {
+            return resolve([]);
+          }
+          // if succesful resolve promise
+          if (status === 'OK' && results.length > 0) {
+            return resolve(this.formatResults(results));
+          }
 
-        throw Error(`Nearby Search failed with status: ${status}`);
-      } catch (err) {
-        console.warn(err);
-        reject([]);
-      }
-    });
+          throw Error(`Nearby Search failed with status: ${status}`);
+        } catch (err) {
+          console.warn(err);
+          reject([]);
+        }
+      },
+    );
   }
 
   formatResults(results) {
@@ -48,6 +51,7 @@ export default class NearbySearch {
       latitude: result?.geometry?.location?.lat?.(),
       longitude: result?.geometry?.location?.lng?.(),
       name: result.name,
+      address: result.vicinity,
     }));
   }
 }
