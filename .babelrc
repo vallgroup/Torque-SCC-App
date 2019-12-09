@@ -15,7 +15,8 @@
           "theme": "./src/theme",
           "core": "./src/core",
           "helpers": "./src/helpers",
-          "hooks": "./src/hooks"
+          "hooks": "./src/hooks",
+          "torque-map": "../../../plugins/torque-map/src/app/Map/Map"
         }
       }
     ]

@@ -10,6 +10,8 @@ import PageImages from './PageImages';
 import PageSidebar from './PageSidebar';
 import { PageRoot, PageMainWrapper, PageSidebarWrapper } from './Page.styles';
 
+import MapSCC from '../../Map'
+
 // see @see https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 // for details about including props in make state, while keeping properly memoized selectors
 //
@@ -26,6 +28,7 @@ const mapActions = {
 };
 
 const Page = ({ page, getPage }) => {
+  console.log(page)
   const { ID: id, type, content, images, tabs } = page;
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -55,7 +58,14 @@ const Page = ({ page, getPage }) => {
   return (
     <PageRoot>
       <RouteEnterExit transitionIn="fade" transitionOut="to-left">
-        <PageMainWrapper>{currentImages && <PageImages images={currentImages} />}</PageMainWrapper>
+        <PageMainWrapper>
+          {'map' === type
+            && <MapSCC />}
+
+          {'map' !== type
+            && currentImages
+            && <PageImages images={currentImages} />}
+        </PageMainWrapper>
       </RouteEnterExit>
 
       <RouteEnterExit transitionIn="to-left" transitionOut="to-right">
